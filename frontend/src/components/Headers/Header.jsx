@@ -1,9 +1,11 @@
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
 export default function Header() {
   const sections = [
     { href: "#popular", label: "POPULAR" },
+    { href: "#deals", label: "DEALS" },
     { href: "#burgers", label: "BURGERS" },
     { href: "#sandwich", label: "SANDWICH" },
     { href: "#rolls", label: "ROLLS" },
@@ -17,28 +19,51 @@ export default function Header() {
 
   const [activeSection, setActiveSection] = useState("popular");
 
+  const scrollRef = useRef(null);
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+  };
+
   function handleSection(section) {
     setActiveSection(section.href.replace("#", ""));
   }
 
   return (
-    <>
-      <div className="bg-white w-full h-12 flex items-center fixed top-19 z-50 justify-center ">
-        {/* <KeyboardArrowLeftIcon className="text-black" /> */}
-        <div className="w-[85%] md:w-3/4 h-full gap-3 text-black  font-bold text-xs md:text-base flex items-center overflow-x-auto hide-scrollbar ">
-          {sections.map((section, index) => {
+    <div className="bg-white w-full h-11 fixed top-19 z-50 flex justify-center border-b">
+
+      {/* CENTER CONTAINER */}
+      <div className="relative w-full max-w-6xl flex items-center">
+
+        {/* LEFT ARROW */}
+        <button
+          onClick={scrollLeft}
+          className="absolute left-0 z-10 bg-white h-full px-1 flex items-center"
+        >
+          <KeyboardArrowLeftIcon />
+        </button>
+
+        {/* SCROLL AREA */}
+        <div
+          ref={scrollRef}
+          className="flex text-black overflow-x-auto whitespace-nowrap scroll-smooth hide-scrollbar w-full px-8"
+        >
+          {sections.map((section) => {
             const id = section.href.replace("#", "");
 
             return (
               <a
-                href={section.href}
                 key={section.href}
-                onClick={() => {
-                  handleSection(section);
-                }}
+                href={section.href}
+                onClick={() => handleSection(section)}
+                className="flex-shrink-0"
               >
                 <div
-                  className={`py-3.5 md:py-2.5 px-3 whitespace-nowrap ${
+                  className={`px-4 md:px-5 py-3.5 md:py-3 text-xs md:text-sm font-bold ${
                     activeSection === id
                       ? "border-b-[3px] border-black"
                       : "border-b-2 border-transparent"
@@ -50,8 +75,16 @@ export default function Header() {
             );
           })}
         </div>
-        {/* <KeyboardArrowRightIcon className="text-black" /> */}
+
+        {/* RIGHT ARROW */}
+        <button
+          onClick={scrollRight}
+          className="absolute right-0 z-10 bg-white h-full px-1 flex items-center"
+        >
+          <KeyboardArrowRightIcon />
+        </button>
+
       </div>
-    </>
+    </div>
   );
 }

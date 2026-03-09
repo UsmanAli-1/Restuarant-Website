@@ -11,16 +11,22 @@ import PastaSection from "./components/Pasta/PastaSection";
 import AlakartSection from "./components/AlaKart/AlakartSection";
 import FriesSection from "./components/Fries/FriesSection";
 import BeveragesSection from "./components/Beverages/BeveragesSection";
+import DealsSection from "./components/Deals/DealsSection";
+
 
 function App() {
   return (
     <>
       <WarningHeader />
       <UpperHeader />
-      <div className="mt-30">
-        <Header />
+      <Header />
+      <div className="mt-30 px-4 md:px-8 max-w-[1200px] mx-auto">
         <section id="popular" className="scroll-mt-32">
           <PopularSection />
+        </section>
+
+        <section id="deals" className="scroll-mt-32">
+          <DealsSection />
         </section>
 
         <section id="burgers" className="scroll-mt-32">
