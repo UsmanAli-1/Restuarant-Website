@@ -17,47 +17,48 @@ function App() {
     <>
       <WarningHeader />
       <UpperHeader />
-      <Header />
+      <div className="mt-30">
+        <Header />
+        <section id="popular" className="scroll-mt-32">
+          <PopularSection />
+        </section>
 
-      <section id="popular">
-        <PopularSection />
-      </section>
+        <section id="burgers" className="scroll-mt-32">
+          <BurgersSection />
+        </section>
 
-      <section id="burgers">
-        <BurgersSection />
-      </section>
+        <section id="sandwich" className="scroll-mt-32">
+          <SandwichSection />
+        </section>
 
-      <section id="sandwich">
-        <SandwichSection />
-      </section>
+        <section id="rolls" className="scroll-mt-32">
+          <RollsSection />
+        </section>
 
-      <section id="rolls">
-        <RollsSection />
-      </section>
+        <section id="bbq" className="scroll-mt-32">
+          <BbqSection />
+        </section>
 
-      <section id="bbq">
-        <BbqSection />
-      </section>
+        <section id="pizza" className="scroll-mt-32">
+          <PizzaSection />
+        </section>
 
-      <section id="pizza">
-        <PizzaSection />
-      </section>
+        <section id="pasta" className="scroll-mt-32">
+          <PastaSection />
+        </section>
 
-      <section id="pasta">
-        <PastaSection />
-      </section>
+        <section id="alakart" className="scroll-mt-32">
+          <AlakartSection />
+        </section>
 
-      <section id="alakart">
-        <AlakartSection />
-      </section>
+        <section id="fries" className="scroll-mt-32">
+          <FriesSection />
+        </section>
 
-      <section id="fries">
-        <FriesSection />
-      </section>
-
-      <section id="beverages">
-        <BeveragesSection />
-      </section>
+        <section id="beverages" className="scroll-mt-32">
+          <BeveragesSection />
+        </section>
+      </div>
     </>
   );
 }

@@ -7,7 +7,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 export default function UpperHeader() {
   return (
     <>
-      <div className="h-19 bg-black flex items-center justify-center sticky top-0 z-50">
+      <div className="h-19 bg-black flex items-center justify-center fixed top-0 left-0 w-full z-50">
         <Box sx={{ flexGrow: 1 }}>
           <Grid container>
             <Grid size="grow" className="flex items-center justify-center">
