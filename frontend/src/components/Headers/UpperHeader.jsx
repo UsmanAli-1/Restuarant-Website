@@ -32,7 +32,9 @@ export default function UpperHeader() {
                   </div>
 
                   <div className="text-xs md:text-sm truncate max-w-[180px] md:max-w-[350px]">
-                    <a href="#">H no R-50 street 2 sindhi society gulshan-e-iqbal block 19</a>
+                    <a href="#">
+                      H no R-50 street 2 sindhi society gulshan-e-iqbal block 19
+                    </a>
                   </div>
                 </div>
               </div>
@@ -59,7 +61,6 @@ export default function UpperHeader() {
                   0
                 </span>
               </div>
-
             </Grid>
           </Grid>
         </Box>
