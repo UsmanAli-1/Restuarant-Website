@@ -14,7 +14,6 @@ import BeveragesSection from "./components/Beverages/BeveragesSection";
 import DealsSection from "./components/Deals/DealsSection";
 import Footer from "./components/Footer";
 
-
 function App() {
   return (
     <>
@@ -25,7 +24,7 @@ function App() {
         <section id="popular" className="scroll-mt-32">
           <PopularSection />
         </section>
-{/* 
+        {/* 
         <section id="deals" className="scroll-mt-32">
           <DealsSection />
         </section>
