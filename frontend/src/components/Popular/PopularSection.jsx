@@ -3,8 +3,8 @@ import PopularCards from "../PopularCards";
 export default function PopularSection() {
   return (
     <>
-      <div className="mt-30 max-w-[1200px] mx-auto py-8">
-        <h2 className="text-white text-xl md:text-2xl font-bold mb-6">
+      <div className=" max-w-[1200px] mx-auto ">
+        <h2 className="text-white text-xl md:text-3xl font-bold mb-6 hover:underline">
           Popular
         </h2>
 

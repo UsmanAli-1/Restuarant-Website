@@ -24,7 +24,7 @@ function App() {
         <section id="popular" className="scroll-mt-32">
           <PopularSection />
         </section>
-        {/* 
+        
         <section id="deals" className="scroll-mt-32">
           <DealsSection />
         </section>
@@ -63,7 +63,7 @@ function App() {
 
         <section id="beverages" className="scroll-mt-32">
           <BeveragesSection />
-        </section> */}
+        </section>
       </div>
 
       <Footer />
