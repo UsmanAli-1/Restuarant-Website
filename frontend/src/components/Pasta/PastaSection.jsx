@@ -1,4 +1,4 @@
-import MainCards from "../MainCards";
+import MainCards from "../Cards.jsx/MainCards";
 
 export default function PastaSection() {
   return (
@@ -14,7 +14,6 @@ export default function PastaSection() {
           description="American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable"
           price="799"
         />
-
       </div>
     </div>
   );

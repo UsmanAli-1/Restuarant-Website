@@ -4,8 +4,12 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import CartDrawer from "../CartDrawer";
+import { useState } from "react";
 
 export default function UpperHeader() {
+  const [cartOpen, setCartOpen] = useState(false);
+
   return (
     <div className="h-19 bg-black fixed top-0 left-0 w-full z-50 flex justify-center">
       {/* CENTER CONTAINER */}
@@ -54,7 +58,10 @@ export default function UpperHeader() {
                 </div>
               </a>
               {/* CART */}
-              <div className="relative hidden md:block">
+              <div
+                className="relative hidden md:block cursor-pointer"
+                onClick={() => setCartOpen(true)}
+              >
                 <ShoppingBagIcon sx={{ fontSize: { xs: 25, md: 28 } }} />
 
                 <span className="absolute -top-2 -right-2 bg-black border text-white text-[10px] md:text-xs w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-md">
@@ -65,6 +72,7 @@ export default function UpperHeader() {
           </Grid>
         </Box>
       </div>
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 }

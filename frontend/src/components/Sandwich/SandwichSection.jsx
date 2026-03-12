@@ -1,4 +1,4 @@
-import MainCards from "../MainCards";
+import MainCards from "../Cards.jsx/MainCards";
 
 export default function SandwichSection() {
   return (
@@ -35,7 +35,6 @@ export default function SandwichSection() {
           description="American Cheese Slice, Secret Meg Sauce and BBQ Sauce"
           price="400"
         />
-
       </div>
     </div>
   );

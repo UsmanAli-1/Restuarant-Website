@@ -1,4 +1,4 @@
-import MainCards from "../MainCards";
+import MainCards from "../Cards.jsx/MainCards";
 
 export default function PizzaSection() {
   return (
@@ -31,7 +31,7 @@ export default function PizzaSection() {
 
         <MainCards
           image="/images/pizza4.jpg"
-          title="All Cheese"  
+          title="All Cheese"
           description="American Cheese Slice, Secret Meg Sauce and BBQ Sauce"
           price="799"
         />

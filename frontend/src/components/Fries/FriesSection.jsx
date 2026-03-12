@@ -1,7 +1,7 @@
-import MainCards from "../MainCards";
+import MainCards from "../Cards.jsx/MainCards";
 
 export default function FriesSection() {
-    return (
+  return (
     <div className="  max-w-[1200px] mx-auto py-10">
       <h2 className="text-white text-xl md:text-3xl font-bold mb-6 hover:underline">
         Fries
@@ -21,8 +21,7 @@ export default function FriesSection() {
           description="American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno"
           price="150"
         />
-
       </div>
     </div>
-    );
+  );
 }

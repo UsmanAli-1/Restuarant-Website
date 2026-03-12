@@ -1,4 +1,4 @@
-import MainCards from "../MainCards";
+import MainCards from "../Cards.jsx/MainCards";
 
 export default function BbqSection() {
   return (
