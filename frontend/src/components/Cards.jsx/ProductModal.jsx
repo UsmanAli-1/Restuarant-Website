@@ -27,12 +27,26 @@ export default function ProductModal({ open, onClose, item }) {
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth="lg"
+      maxWidth={false}
       fullWidth
       sx={{
         "& .MuiDialog-paper": {
-          margin: 0,
           width: "100%",
+          maxWidth: "1090px",
+          margin: "auto",
+
+          // MOBILE STYLE
+          marginTop: { xs: "65px", md: "auto" },
+          height: { xs: "calc(100% - 60px)", md: "auto" },
+
+          // DESKTOP HEIGHT
+          maxHeight: { md: "650px" },
+
+          // ROUND ONLY TOP ON MOBILE
+          borderTopLeftRadius: { xs: "20px", md: "8px" },
+          borderTopRightRadius: { xs: "20px", md: "8px" },
+          borderBottomLeftRadius: { xs: "0px", md: "8px" },
+          borderBottomRightRadius: { xs: "0px", md: "8px" },
         },
       }}
       BackdropProps={{
@@ -42,10 +56,9 @@ export default function ProductModal({ open, onClose, item }) {
         },
       }}
       PaperProps={{
-        className: "overflow-hidden md:h-[650px] max-h-[95vh] w-full",
+        className: "overflow-hidden max-h-[95vh]",
         sx: {
-          borderRadius: { xs: "0px", md: "16px" },
-          margin: 0,
+          borderRadius: { xs: "20px", md: "8px" },
         },
       }}
     >
@@ -90,29 +103,33 @@ export default function ProductModal({ open, onClose, item }) {
 
               <AccordionDetails>
                 <Box className="space-y-3">
-                  <Box className="flex justify-between items-center">
+                  <Box
+                    onClick={() =>
+                      setMealOption(mealOption === "fries" ? "" : "fries")
+                    }
+                    className="flex justify-between items-center cursor-pointer"
+                  >
                     <Typography>Fries & Drink</Typography>
 
                     <Box className="flex items-center gap-2">
                       <Typography>+ Rs.299</Typography>
 
-                      <Radio
-                        checked={mealOption === "fries"}
-                        onChange={() => setMealOption("fries")}
-                      />
+                      <Radio checked={mealOption === "fries"} readOnly />
                     </Box>
                   </Box>
 
-                  <Box className="flex justify-between items-center">
+                  <Box
+                    onClick={() =>
+                      setMealOption(mealOption === "curly" ? "" : "curly")
+                    }
+                    className="flex justify-between items-center cursor-pointer"
+                  >
                     <Typography>Curly Fries & Drink</Typography>
 
                     <Box className="flex items-center gap-2">
                       <Typography>+ Rs.549</Typography>
 
-                      <Radio
-                        checked={mealOption === "curly"}
-                        onChange={() => setMealOption("curly")}
-                      />
+                      <Radio checked={mealOption === "curly"} readOnly />
                     </Box>
                   </Box>
                 </Box>
@@ -132,16 +149,18 @@ export default function ProductModal({ open, onClose, item }) {
               </AccordionSummary>
 
               <AccordionDetails>
-                <Box className="flex justify-between items-center">
+                <Box
+                  onClick={() =>
+                    setAddonOption(addonOption === "cheese" ? "" : "cheese")
+                  }
+                  className="flex justify-between items-center cursor-pointer"
+                >
                   <Typography>Extra Cheese</Typography>
 
                   <Box className="flex items-center gap-2">
                     <Typography>+ Rs.120</Typography>
 
-                    <Radio
-                      checked={addonOption === "cheese"}
-                      onChange={() => setAddonOption("cheese")}
-                    />
+                    <Radio checked={addonOption === "cheese"} readOnly />
                   </Box>
                 </Box>
               </AccordionDetails>
@@ -163,7 +182,7 @@ export default function ProductModal({ open, onClose, item }) {
           <div className="bg-white border-t border-gray-300 p-4 flex-shrink-0 sticky bottom-0 z-20">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               {/* COUNTER */}
-              <div className="flex items-center justify-center md:justify-start gap-10 md:gap-2 lg:gap-1">
+              <div className="flex items-center justify-center md:justify-start gap-10 md:gap-2 lg:gap-2">
                 <button
                   onClick={decrease}
                   className="w-8 h-12 bg-black text-white rounded-md flex items-center justify-center"
@@ -184,7 +203,7 @@ export default function ProductModal({ open, onClose, item }) {
               </div>
 
               {/* PRICE + CART */}
-              <button className="bg-black text-white py-3 px-3 md:px-6 rounded-lg font-semibold flex justify-between md:justify-center md:gap-10 lg:gap-18 w-full md:w-auto">
+              <button className="bg-black text-white py-3 px-3 md:px-6 rounded-lg font-semibold flex justify-between md:justify-center md:gap-10 lg:gap-18 w-full md:w-auto ">
                 <span>Rs. {item?.price}.00</span>
 
                 <span>Add To Cart</span>
