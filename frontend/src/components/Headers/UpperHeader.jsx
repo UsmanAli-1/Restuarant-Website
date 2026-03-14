@@ -59,7 +59,7 @@ export default function UpperHeader() {
               </a>
               {/* CART */}
               <div
-                className="relative hidden md:block cursor-pointer"
+                className="relative  md:block cursor-pointer"
                 onClick={() => setCartOpen(true)}
               >
                 <ShoppingBagIcon sx={{ fontSize: { xs: 25, md: 28 } }} />

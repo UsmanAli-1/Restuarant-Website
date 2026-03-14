@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import { useState } from "react";
 
 export default function ProductModal({ open, onClose, item }) {
@@ -22,6 +21,11 @@ export default function ProductModal({ open, onClose, item }) {
 
   const increase = () => setCount((c) => c + 1);
   const decrease = () => setCount((c) => (c > 1 ? c - 1 : 1));
+
+  const handleAddtocart = (items) => {
+    console.log(items);
+    onClose();
+  };
 
   return (
     <Dialog
@@ -37,7 +41,7 @@ export default function ProductModal({ open, onClose, item }) {
 
           // MOBILE STYLE
           marginTop: { xs: "65px", md: "auto" },
-          height: { xs: "calc(100% - 60px)", md: "auto" },
+          height: { xs: "calc(100% - 60px)" },
 
           // DESKTOP HEIGHT
           maxHeight: { md: "650px" },
@@ -62,6 +66,25 @@ export default function ProductModal({ open, onClose, item }) {
         },
       }}
     >
+      <IconButton
+        onClick={onClose}
+        sx={{
+          position: "fixed",
+          top: "20px",
+          right: "16px",
+          bgcolor: "#ffffffb9",
+          width: 38,
+          height: 38,
+          zIndex: 2000,
+          display: { xs: "flex", md: "none" },
+          boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+          "&:hover": { bgcolor: "#f5f5f5" },
+          borderRadius: "8px",
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+
       <div className="flex flex-col md:flex-row h-full">
         {/* LEFT IMAGE */}
         <div className="md:w-1/2 w-full h-[260px] md:h-full bg-black flex-shrink-0">
@@ -73,7 +96,10 @@ export default function ProductModal({ open, onClose, item }) {
           {/* CLOSE */}
           <IconButton
             onClick={onClose}
-            className="!absolute right-3 top-3 !bg-gray-200"
+            className="hidden !absolute right-3 top-3 !bg-gray-200  md:flex"
+            sx={{
+              borderRadius: "8px",
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -203,7 +229,10 @@ export default function ProductModal({ open, onClose, item }) {
               </div>
 
               {/* PRICE + CART */}
-              <button className="bg-black text-white py-3 px-3 md:px-6 rounded-lg font-semibold flex justify-between md:justify-center md:gap-10 lg:gap-18 w-full md:w-auto ">
+              <button
+                onClick={() => handleAddtocart(item, onClose)}
+                className="bg-black text-white py-3 px-3 md:px-6 rounded-lg font-semibold flex justify-between md:justify-center md:gap-10 lg:gap-18 w-full md:w-auto "
+              >
                 <span>Rs. {item?.price}.00</span>
 
                 <span>Add To Cart</span>
