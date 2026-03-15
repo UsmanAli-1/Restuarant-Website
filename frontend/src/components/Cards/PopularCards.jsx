@@ -2,7 +2,14 @@ import Card from "@mui/material/Card";
 import ProductModal from "./ProductModal";
 import { useState } from "react";
 
-export default function PopularCards({ image, title, price, description }) {
+export default function PopularCards({
+  image,
+  title,
+  price,
+  description,
+  setInCart,
+  setCartOpen,
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -36,6 +43,8 @@ export default function PopularCards({ image, title, price, description }) {
         open={open}
         onClose={() => setOpen(false)}
         item={{ image, title, price, description }}
+        setInCart={setInCart}
+        setCartOpen={setCartOpen}
       />
     </>
   );

@@ -1,6 +1,22 @@
-import MainCards from "../Cards.jsx/MainCards";
+import MainCards from "../Cards/MainCards";
 
-export default function FriesSection() {
+export default function FriesSection({ setInCart, setCartOpen }) {
+  const showFries = [
+    {
+      image: "/images/pizzafries.jpg",
+      title: "Pizza Fries",
+      description:
+        "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
+      price: "650",
+    },
+    {
+      image: "/images/fries.png",
+      title: "Plan Fries",
+      description:
+        "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
+      price: "150",
+    },
+  ];
   return (
     <div className="  max-w-[1200px] mx-auto py-10">
       <h2 className="text-white text-xl md:text-3xl font-bold mb-6 hover:underline">
@@ -8,19 +24,14 @@ export default function FriesSection() {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <MainCards
-          image="/images/pizzafries.jpg"
-          title="Pizza Fries"
-          description="American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable"
-          price="650"
-        />
-
-        <MainCards
-          image="/images/fries.png"
-          title="Plan Fries"
-          description="American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno"
-          price="150"
-        />
+        {showFries.map((item) => (
+          <MainCards
+            key={item.title}
+            {...item}
+            setInCart={setInCart}
+            setCartOpen={setCartOpen}
+          />
+        ))}
       </div>
     </div>
   );

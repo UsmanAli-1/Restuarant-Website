@@ -2,7 +2,14 @@ import Card from "@mui/material/Card";
 import ProductModal from "./ProductModal";
 import { useState } from "react";
 
-export default function MainCards({ image, title, description, price }) {
+export default function MainCards({
+  image,
+  title,
+  description,
+  price,
+  setInCart,
+  setCartOpen,
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -51,6 +58,8 @@ export default function MainCards({ image, title, description, price }) {
         open={open}
         onClose={() => setOpen(false)}
         item={{ image, title, price, description }}
+        setInCart={setInCart}
+        setCartOpen={setCartOpen}
       />
     </>
   );

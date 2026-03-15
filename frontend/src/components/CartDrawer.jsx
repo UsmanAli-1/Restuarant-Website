@@ -9,7 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function CartDrawer({ open, onClose }) {
+export default function CartDrawer({ open, onClose, inCart=[] }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -30,6 +30,7 @@ export default function CartDrawer({ open, onClose }) {
         },
       }}
     >
+      {/* MOBILE CLOSE */}
       <IconButton
         onClick={onClose}
         sx={{
@@ -94,120 +95,125 @@ export default function CartDrawer({ open, onClose }) {
             py: 1,
           }}
         >
-          {/* ITEM  */}
-          <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
-            {/* IMAGE */}
-            <Box
-              sx={{
-                width: 60,
-                height: 60,
-                flexShrink: 0,
-                borderRadius: "6px",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src="/images/beef.jpg"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </Box>
-
-            {/* RIGHT CONTENT */}
-            <Box sx={{ flex: 1 }}>
-              {/* TITLE + PRICE ROW */}
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                }}
-              >
-                <Box>
-                  <Typography fontWeight="bold">Chipotle Wrap</Typography>
-
-                  <Typography
-                    sx={{
-                      fontSize: "13px",
-                      color: "#7a7a7a",
-                      maxWidth: "240px",
-                    }}
-                  >
-                    Tortilla Bread, Fries, Jalapenos, Lettuce, Filled With
-                    Chipotle Sauce
-                  </Typography>
-                </Box>
-              </Box>
-              <Typography
-                sx={{
-                  fontWeight: 500,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                Rs. 799.00
-              </Typography>
-
-              {/* COUNTER + DELETE */}
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                {/* COUNTER */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <IconButton
-                    sx={{
-                      bgcolor: "black",
-                      color: "white",
-                      width: 25,
-                      height: 25,
-                      "&:hover": { bgcolor: "gray" },
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <RemoveIcon fontSize="small" />
-                  </IconButton>
-
+          {!inCart || inCart.length === 0 ? (
+            <Typography sx={{ textAlign: "center", mt: 4 }}>
+              Your cart is empty
+            </Typography>
+          ) : (
+            inCart.map((item, index) => (
+              <Box key={index}>
+                <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
+                  {/* IMAGE */}
                   <Box
                     sx={{
-                      border: "1px solid #dcdcdc",
-                      px: 1.5,
-                      py: 0.3,
-                      borderRadius: "5px",
-                      fontSize: "14px",
+                      width: 60,
+                      height: 60,
+                      flexShrink: 0,
+                      borderRadius: "6px",
+                      overflow: "hidden",
                     }}
                   >
-                    1
+                    <img
+                      src={item.image}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
                   </Box>
 
-                  <IconButton
-                    sx={{
-                      bgcolor: "black",
-                      color: "white",
-                      width: 25,
-                      height: 25,
-                      "&:hover": { bgcolor: "black" },
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <AddIcon fontSize="small" />
-                  </IconButton>
+                  {/* RIGHT CONTENT */}
+                  <Box sx={{ flex: 1 }}>
+                    <Typography fontWeight="bold">
+                      {item.title}
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        fontSize: "13px",
+                        color: "#7a7a7a",
+                        maxWidth: "240px",
+                      }}
+                    >
+                      {item.description}
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        fontWeight: 500,
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      Rs. {item.price}
+                    </Typography>
+
+                    {/* COUNTER + DELETE */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {/* COUNTER */}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                        }}
+                      >
+                        <IconButton
+                          sx={{
+                            bgcolor: "black",
+                            color: "white",
+                            width: 25,
+                            height: 25,
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <RemoveIcon fontSize="small" />
+                        </IconButton>
+
+                        <Box
+                          sx={{
+                            border: "1px solid #dcdcdc",
+                            px: 1.5,
+                            py: 0.3,
+                            borderRadius: "5px",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {item.quantity || 1}
+                        </Box>
+
+                        <IconButton
+                          sx={{
+                            bgcolor: "black",
+                            color: "white",
+                            width: 25,
+                            height: 25,
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <AddIcon fontSize="small" />
+                        </IconButton>
+                      </Box>
+
+                      {/* DELETE */}
+                      <IconButton>
+                        <DeleteOutlineIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
                 </Box>
 
-                {/* DELETE ICON */}
-                <IconButton>
-                  <DeleteOutlineIcon />
-                </IconButton>
+                <Box sx={{ borderBottom: "1px solid #e5e5e5", mb: 3 }} />
               </Box>
-            </Box>
-          </Box>
-          <Box sx={{ borderBottom: "1px solid #e5e5e5", mb: 3 }} />
+            ))
+          )}
         </Box>
 
         {/* SUMMARY */}
@@ -220,7 +226,10 @@ export default function CartDrawer({ open, onClose }) {
         >
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
             <Typography fontSize="14px">Subtotal</Typography>
-            <Typography fontSize="14px">Rs. 1,598.00</Typography>
+            <Typography fontSize="14px">
+              Rs.{" "}
+              {inCart.reduce((total, item) => total + item.price * item.quantity, 0)}
+            </Typography>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
@@ -237,10 +246,13 @@ export default function CartDrawer({ open, onClose }) {
             }}
           >
             <Typography fontWeight="bold">Grand total</Typography>
-            <Typography fontWeight="bold">Rs. 1,748.00</Typography>
+            <Typography fontWeight="bold">
+              Rs.{" "}
+              {inCart.reduce((total, item) => total + item.price * item.quantity, 0) + 150}
+            </Typography>
           </Box>
 
-          {/* CHECKOUT BUTTON */}
+          {/* CHECKOUT */}
           <Box
             sx={{
               bgcolor: "black",

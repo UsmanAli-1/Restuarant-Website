@@ -5,11 +5,8 @@ import LocationPinIcon from "@mui/icons-material/LocationPin";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import CartDrawer from "../CartDrawer";
-import { useState } from "react";
 
-export default function UpperHeader() {
-  const [cartOpen, setCartOpen] = useState(false);
-
+export default function UpperHeader({ cartOpen , setCartOpen , inCart}) {
   return (
     <div className="h-19 bg-black fixed top-0 left-0 w-full z-50 flex justify-center">
       {/* CENTER CONTAINER */}
@@ -72,7 +69,11 @@ export default function UpperHeader() {
           </Grid>
         </Box>
       </div>
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        inCart={inCart}
+      />
     </div>
   );
 }

@@ -1,6 +1,85 @@
-import MainCards from "../Cards.jsx/MainCards";
+import MainCards from "../Cards/MainCards";
 
-export default function PizzaSection() {
+export default function PizzaSection({ setInCart, setCartOpen }) {
+  const showPizza = [
+    {
+      image: "/images/pizza1.jpg",
+      title: "Chicken tikka",
+      description:
+        "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza2.jpg",
+      title: "Chicken fajita",
+      description:
+        "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza3.jpg",
+      title: "Chicken supreme",
+      description:
+        "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
+      price: "829",
+    },
+
+    {
+      image: "/images/pizza4.jpg",
+      title: "All Cheese",
+      description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza5.jpg",
+      title: "Afghani tikka",
+      description:
+        "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza6.jpg",
+      title: "Malai Tikka",
+      description:
+        "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza7.jpg",
+      title: "Creamy tikka",
+      description:
+        "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza8.jpg",
+      title: "Ranch Chicken tikka",
+      description:
+        "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
+      price: "829",
+    },
+
+    {
+      image: "/images/pizza9.jpg",
+      title: "Smokehouse tikka",
+      description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
+      price: "799",
+    },
+
+    {
+      image: "/images/pizza10.jpg",
+      title: "Tarzen tikka",
+      description:
+        "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
+      price: "799",
+    },
+  ];
   return (
     <div className="  max-w-[1200px] mx-auto py-10">
       <h2 className="text-white text-xl md:text-3xl font-bold mb-6 hover:underline">
@@ -8,75 +87,14 @@ export default function PizzaSection() {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <MainCards
-          image="/images/pizza1.jpg"
-          title="Chicken tikka"
-          description="American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza2.jpg"
-          title="Chicken fajita"
-          description="American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza3.jpg"
-          title="Chicken supreme"
-          description="Signature Black Bun, American Cheese Slice and Secret Meg Sauce  "
-          price="829"
-        />
-
-        <MainCards
-          image="/images/pizza4.jpg"
-          title="All Cheese"
-          description="American Cheese Slice, Secret Meg Sauce and BBQ Sauce"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza5.jpg"
-          title="Afghani tikka"
-          description="American Cheese Slice, Shroom Sauce zinger sauce and mushroom"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza6.jpg"
-          title="Malai Tikka"
-          description="American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza7.jpg"
-          title="Creamy tikka"
-          description="American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza8.jpg"
-          title="Ranch Chicken tikka"
-          description="Signature Black Bun, American Cheese Slice and Secret Meg Sauce  "
-          price="829"
-        />
-
-        <MainCards
-          image="/images/pizza9.jpg"
-          title="Smokehouse tikka"
-          description="American Cheese Slice, Secret Meg Sauce and BBQ Sauce"
-          price="799"
-        />
-
-        <MainCards
-          image="/images/pizza10.jpg"
-          title="Tarzen tikka"
-          description="American Cheese Slice, Shroom Sauce zinger sauce and mushroom"
-          price="799"
-        />
+        {showPizza.map((item) => (
+          <MainCards
+            key={item.title}
+            {...item}
+            setInCart={setInCart}
+            setCartOpen={setCartOpen}
+          />
+        ))}
       </div>
     </div>
   );

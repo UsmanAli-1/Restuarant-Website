@@ -2,6 +2,7 @@ import { Dialog, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import CartDrawer from "../CartDrawer";
 import {
   Accordion,
   AccordionSummary,
@@ -14,7 +15,13 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 
-export default function ProductModal({ open, onClose, item }) {
+export default function ProductModal({
+  open,
+  onClose,
+  item,
+  setInCart,
+  setCartOpen,
+}) {
   const [count, setCount] = useState(1);
   const [mealOption, setMealOption] = useState("");
   const [addonOption, setAddonOption] = useState("");
@@ -22,9 +29,21 @@ export default function ProductModal({ open, onClose, item }) {
   const increase = () => setCount((c) => c + 1);
   const decrease = () => setCount((c) => (c > 1 ? c - 1 : 1));
 
-  const handleAddtocart = (items) => {
-    console.log(items);
+  const handleAddtocart = (item) => {
+    console.log(count);
+
+    setInCart((prev) => [
+      ...prev,
+      {
+        ...item,
+        quantity: count,
+        meal: mealOption,
+        addon: addonOption,
+      },
+    ]);
+
     onClose();
+    setCartOpen(true);
   };
 
   return (
@@ -41,7 +60,7 @@ export default function ProductModal({ open, onClose, item }) {
 
           // MOBILE STYLE
           marginTop: { xs: "65px", md: "auto" },
-          height: { xs: "calc(100% - 60px)" },
+          height: { xs: "calc(100% - 60px)", md: "calc(90% - 60px)" },
 
           // DESKTOP HEIGHT
           maxHeight: { md: "650px" },
@@ -92,13 +111,14 @@ export default function ProductModal({ open, onClose, item }) {
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="flex flex-col md:w-1/2 h-full bg-gray-100 relative">
+        <div className="flex flex-col md:w-1/2 h-full bg-white relative">
           {/* CLOSE */}
           <IconButton
             onClick={onClose}
-            className="hidden !absolute right-3 top-3 !bg-gray-200  md:flex"
+            className="hidden !absolute right-3 top-3 !bg-gray-200  "
             sx={{
               borderRadius: "8px",
+              display: { xs: "none", md: "flex" },
             }}
           >
             <CloseIcon />
@@ -123,11 +143,14 @@ export default function ProductModal({ open, onClose, item }) {
                 "&:before": { display: "none" },
               }}
             >
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{ bgcolor: "#faf8f7" }}
+              >
                 <Typography fontWeight="bold">Make It A Meal</Typography>
               </AccordionSummary>
 
-              <AccordionDetails>
+              <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
                 <Box className="space-y-3">
                   <Box
                     onClick={() =>
@@ -170,11 +193,14 @@ export default function ProductModal({ open, onClose, item }) {
                 "&:before": { display: "none" },
               }}
             >
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{ bgcolor: "#faf8f7" }}
+              >
                 <Typography fontWeight="bold">Add On</Typography>
               </AccordionSummary>
 
-              <AccordionDetails>
+              <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
                 <Box
                   onClick={() =>
                     setAddonOption(addonOption === "cheese" ? "" : "cheese")
@@ -197,7 +223,7 @@ export default function ProductModal({ open, onClose, item }) {
               <p className="font-semibold mb-2">Instructions</p>
 
               <textarea
-                className="w-full border rounded-lg p-3"
+                className="w-full border rounded-lg p-3 bg-[#faf8f7] "
                 rows={3}
                 placeholder="Any special requests?"
               />
