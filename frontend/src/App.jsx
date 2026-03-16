@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       <WarningHeader />
-      <UpperHeader setCartOpen={setCartOpen} />
+      <UpperHeader setCartOpen={setCartOpen} inCart={inCart} />
       <Header />
       <div className="mt-30 px-4 md:px-8 max-w-[1200px] mx-auto">
         <section id="popular" className="scroll-mt-32">
@@ -77,6 +77,7 @@ function App() {
         open={cartOpen}
         onClose={() => setCartOpen(false)}
         inCart={inCart}
+        setInCart={setInCart}
       />
     </>
   );

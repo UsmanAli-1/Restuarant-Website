@@ -8,12 +8,41 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 
-export default function CartDrawer({ open, onClose, inCart=[] }) {
+export default function CartDrawer({ open, onClose, inCart = [], setInCart }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  function handleDelete(index) {
+    setInCart((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function handleClearCart() {
+    setInCart([]);
+  }
+
+  function increase(index) {
+    setInCart((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
+    );
+  }
+  function decrease(index) {
+    setInCart((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
+          : item,
+      ),
+    );
+  }
+
   return (
+    // ---------------------------------------
+    // Main Div
+    // ---------------------------------------
     <Drawer
       anchor={isMobile ? "bottom" : "right"}
       open={open}
@@ -26,11 +55,11 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
           borderBottomLeftRadius: { sm: "12px" },
           overflow: "hidden",
           marginTop: { xs: "78px", sm: "0px", md: "0px" },
-          height: { xs: "91vh", sm: "100vh", md: "100vh" },
+          height: { xs: "90vh", sm: "100vh", md: "100vh" },
         },
       }}
     >
-      {/* MOBILE CLOSE */}
+      {/* Mobile Close icon */}
       <IconButton
         onClick={onClose}
         sx={{
@@ -51,6 +80,9 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
         <CloseIcon />
       </IconButton>
 
+      {/* ---------------------------------------------------------------------------------
+    Inner Cart Div 
+    --------------------------------------------------------------------------------- */}
       <Box
         sx={{
           height: "100%",
@@ -60,7 +92,9 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
           position: "relative",
         }}
       >
-        {/* HEADER */}
+        {/* ---------------------------------------------------------------------------------
+    Header Div 
+    --------------------------------------------------------------------------------- */}
         <Box
           sx={{
             display: "flex",
@@ -74,19 +108,24 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
         >
           <Typography fontWeight="bold">Your Cart</Typography>
 
-          <Typography
-            sx={{
-              fontSize: "14px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              textDecoration: "underline",
-            }}
-          >
-            Clear cart
-          </Typography>
+          {!inCart || inCart.length === 0 ? null : (
+            <Typography
+              sx={{
+                fontSize: "14px",
+                cursor: "pointer",
+                fontWeight: "bold",
+                textDecoration: "underline",
+              }}
+              onClick={handleClearCart}
+            >
+              Clear cart
+            </Typography>
+          )}
         </Box>
 
-        {/* CART ITEMS */}
+        {/* ---------------------------------------------------------------------------------
+        Cart item Div 
+        --------------------------------------------------------------------------------- */}
         <Box
           sx={{
             flex: 1,
@@ -96,9 +135,24 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
           }}
         >
           {!inCart || inCart.length === 0 ? (
-            <Typography sx={{ textAlign: "center", mt: 4 }}>
-              Your cart is empty
-            </Typography>
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                color: "#bdbdbd",
+                gap: 1,
+              }}
+            >
+              <RestaurantMenuIcon sx={{ fontSize: 60, opacity: 0.7 }} />
+
+              <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                Your cart is empty
+              </Typography>
+            </Box>
           ) : (
             inCart.map((item, index) => (
               <Box key={index}>
@@ -125,9 +179,7 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
 
                   {/* RIGHT CONTENT */}
                   <Box sx={{ flex: 1 }}>
-                    <Typography fontWeight="bold">
-                      {item.title}
-                    </Typography>
+                    <Typography fontWeight="bold">{item.title}</Typography>
 
                     <Typography
                       sx={{
@@ -149,7 +201,9 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
                       Rs. {item.price}
                     </Typography>
 
-                    {/* COUNTER + DELETE */}
+                    {/* ---------------------------------------------------------------------------------
+                     Counter + Delete Div 
+                    --------------------------------------------------------------------------------- */}
                     <Box
                       sx={{
                         display: "flex",
@@ -172,7 +226,11 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
                             width: 25,
                             height: 25,
                             borderRadius: "8px",
+                            "&:hover": {
+                              bgcolor: "gray",
+                            },
                           }}
+                          onClick={() => decrease(index)}
                         >
                           <RemoveIcon fontSize="small" />
                         </IconButton>
@@ -196,14 +254,18 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
                             width: 25,
                             height: 25,
                             borderRadius: "8px",
+                            "&:hover": {
+                              bgcolor: "gray",
+                            },
                           }}
+                          onClick={() => increase(index)}
                         >
                           <AddIcon fontSize="small" />
                         </IconButton>
                       </Box>
 
                       {/* DELETE */}
-                      <IconButton>
+                      <IconButton onClick={() => handleDelete(index)}>
                         <DeleteOutlineIcon />
                       </IconButton>
                     </Box>
@@ -216,58 +278,73 @@ export default function CartDrawer({ open, onClose, inCart=[] }) {
           )}
         </Box>
 
-        {/* SUMMARY */}
-        <Box
-          sx={{
-            px: 2.5,
-            pt: 2,
-            borderTop: "1px solid #e5e5e5",
-          }}
-        >
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-            <Typography fontSize="14px">Subtotal</Typography>
-            <Typography fontSize="14px">
-              Rs.{" "}
-              {inCart.reduce((total, item) => total + item.price * item.quantity, 0)}
-            </Typography>
-          </Box>
+        {/* ---------------------------------------------------------------------------------
+        Summary + Checkout Div 
+        --------------------------------------------------------------------------------- */}
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-            <Typography fontSize="14px">Delivery Charges</Typography>
-            <Typography fontSize="14px">Rs. 150.00</Typography>
-          </Box>
-
+        {!inCart || inCart.length === 0 ? null : (
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              fontWeight: "bold",
-              mb: 2,
+              px: 2.5,
+              pt: 2,
+              borderTop: "1px solid #e5e5e5",
             }}
           >
-            <Typography fontWeight="bold">Grand total</Typography>
-            <Typography fontWeight="bold">
-              Rs.{" "}
-              {inCart.reduce((total, item) => total + item.price * item.quantity, 0) + 150}
-            </Typography>
-          </Box>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+            >
+              <Typography fontSize="14px">Subtotal</Typography>
+              <Typography fontSize="14px">
+                Rs.{" "}
+                {inCart.reduce(
+                  (total, item) => total + item.price * item.quantity,
+                  0,
+                )}
+              </Typography>
+            </Box>
 
-          {/* CHECKOUT */}
-          <Box
-            sx={{
-              bgcolor: "black",
-              color: "white",
-              textAlign: "center",
-              py: 1.6,
-              borderRadius: "10px",
-              fontWeight: "bold",
-              cursor: "pointer",
-              mb: 2,
-            }}
-          >
-            Checkout
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+            >
+              <Typography fontSize="14px">Delivery Charges</Typography>
+              <Typography fontSize="14px">Rs. 150.00</Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontWeight: "bold",
+                mb: 2,
+              }}
+            >
+              <Typography fontWeight="bold">Grand total</Typography>
+              <Typography fontWeight="bold">
+                Rs.{" "}
+                {inCart.reduce(
+                  (total, item) => total + item.price * item.quantity,
+                  0,
+                ) + 150}
+              </Typography>
+            </Box>
+
+            {/* CHECKOUT */}
+            <Box
+              sx={{
+                bgcolor: "black",
+                color: "white",
+                textAlign: "center",
+                py: 1.6,
+                borderRadius: "10px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                mb: 2,
+              }}
+            >
+              Checkout
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Drawer>
   );

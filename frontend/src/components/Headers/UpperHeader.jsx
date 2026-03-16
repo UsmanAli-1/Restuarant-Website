@@ -6,7 +6,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import CartDrawer from "../CartDrawer";
 
-export default function UpperHeader({ cartOpen , setCartOpen , inCart}) {
+export default function UpperHeader({ cartOpen, setCartOpen, inCart }) {
   return (
     <div className="h-19 bg-black fixed top-0 left-0 w-full z-50 flex justify-center">
       {/* CENTER CONTAINER */}
@@ -62,7 +62,7 @@ export default function UpperHeader({ cartOpen , setCartOpen , inCart}) {
                 <ShoppingBagIcon sx={{ fontSize: { xs: 25, md: 28 } }} />
 
                 <span className="absolute -top-2 -right-2 bg-black border text-white text-[10px] md:text-xs w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-md">
-                  0
+                  {inCart?.length || 0}
                 </span>
               </div>
             </Grid>
