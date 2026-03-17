@@ -4,7 +4,7 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
-import CartDrawer from "../CartDrawer";
+import CartDrawer from "../Carts/CartDrawer";
 
 export default function UpperHeader({ cartOpen, setCartOpen, inCart }) {
   return (
@@ -56,7 +56,7 @@ export default function UpperHeader({ cartOpen, setCartOpen, inCart }) {
               </a>
               {/* CART */}
               <div
-                className="relative  md:block cursor-pointer"
+                className="relative hidden md:block cursor-pointer"
                 onClick={() => setCartOpen(true)}
               >
                 <ShoppingBagIcon sx={{ fontSize: { xs: 25, md: 28 } }} />
@@ -69,11 +69,6 @@ export default function UpperHeader({ cartOpen, setCartOpen, inCart }) {
           </Grid>
         </Box>
       </div>
-      <CartDrawer
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-        inCart={inCart}
-      />
     </div>
   );
 }

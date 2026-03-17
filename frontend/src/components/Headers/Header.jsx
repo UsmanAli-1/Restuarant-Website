@@ -86,7 +86,7 @@ export default function Header() {
                 }}
               >
                 <div
-                  className={`px-4 md:px-5 py-3.5 md:py-3 text-xs md:text-sm font-bold transition-all duration-300 ${
+                  className={`px-6 md:px-5 py-3.5 md:py-3 text-xs md:text-sm font-bold transition-all duration-300 ${
                     activeSection === id
                       ? "border-b-[3px] border-black"
                       : "border-b-2 border-transparent"

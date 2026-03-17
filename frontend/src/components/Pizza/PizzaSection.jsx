@@ -7,7 +7,7 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Chicken tikka",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -15,7 +15,7 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Chicken fajita",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -23,14 +23,14 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Chicken supreme",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "829",
+      price: 829,
     },
 
     {
       image: "/images/pizza4.jpg",
       title: "All Cheese",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -38,7 +38,7 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Afghani tikka",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -46,7 +46,7 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Malai Tikka",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -54,7 +54,7 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Creamy tikka",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -62,14 +62,14 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Ranch Chicken tikka",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "829",
+      price: 829,
     },
 
     {
       image: "/images/pizza9.jpg",
       title: "Smokehouse tikka",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -77,7 +77,7 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Tarzen tikka",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
   ];
   return (

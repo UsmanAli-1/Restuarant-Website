@@ -7,48 +7,48 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       title: "Tikka Leg",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "400",
+      price: 400,
     },
     {
       image: "/images/tikkachest.png",
       title: "Tikka Chest",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "450",
+      price: 450,
     },
     {
       image: "/images/malaitikka.png",
       title: "Malai Tikka",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "450",
+      price: 450,
     },
     {
       image: "/images/reshmi.png",
       title: "Reshmi Kabab",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "599",
+      price: 599,
     },
     {
       image: "/images/kabab2.png",
       title: "Seekh Kabab",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "599",
+      price: 599,
     },
     {
       image: "/images/malaiboti.png",
       title: "Malai Boti",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
     {
       image: "/images/boti1.jpg",
       title: "Tikka Boti",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
   ];
   return (

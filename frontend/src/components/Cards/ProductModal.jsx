@@ -2,7 +2,6 @@ import { Dialog, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import CartDrawer from "../CartDrawer";
 import {
   Accordion,
   AccordionSummary,
@@ -19,22 +18,66 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
   const [quantity, setQuantity] = useState(1);
   const [mealOption, setMealOption] = useState("");
   const [addonOption, setAddonOption] = useState("");
+  const [drinkOption, setDrinkOption] = useState("");
+  const [note, setNote] = useState("");
+  const [error, setError] = useState("");
 
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
-  const handleAddtocart = (item) => {
-    console.log(quantity);
+  const mealOptions = {
+    fries: {
+      label: "Fries & Drink",
+      price: 299,
+    },
+    curly: {
+      label: "Curly Fries & Drink",
+      price: 549,
+    },
+  };
+
+  const addonOptions = {
+    cheese: {
+      label: "Extra Cheese",
+      price: 120,
+    },
+  };
+
+  const drinkOptions = {
+    cola: {
+      label: "Coca Cola",
+    },
+    mint: {
+      label: "Mint Margarita",
+    },
+  };
+
+  
+  const handleAddtocart = () => {
+    if (mealOption && !drinkOption) {
+      setError("Please select a drink");
+      return;
+    }
+
+    setError("");
 
     setInCart((prev) => [
       ...prev,
       {
         ...item,
-        quantity: quantity,
-        meal: mealOption,
-        addon: addonOption,
+        quantity,
+
+        meal: mealOption ? mealOptions[mealOption] : null,
+        addon: addonOption ? addonOptions[addonOption] : null,
+        drink: drinkOption ? drinkOptions[drinkOption] : null,
+
+        instructions: note,
       },
     ]);
+
+    setMealOption("");
+    setAddonOption("");
+    setNote("");
 
     onClose();
   };
@@ -196,6 +239,54 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
               </Accordion>
 
               {/* ---------------------------------------------------------------------------------------
+              Show Drinks Div 
+              --------------------------------------------------------------------------------------- */}
+
+              {mealOption && (
+                <Accordion
+                  sx={{
+                    mt: 2,
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    "&:before": { display: "none" },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{ bgcolor: "#faf8f7" }}
+                  >
+                    <Typography fontWeight="bold">Choose Drink</Typography>
+                  </AccordionSummary>
+
+                  <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
+                    <Box className="space-y-3">
+                      <Box
+                        onClick={() => setDrinkOption("cola")}
+                        className="flex justify-between cursor-pointer"
+                      >
+                        <Typography>Coca Cola</Typography>
+                        <Radio checked={drinkOption === "cola"} />
+                      </Box>
+
+                      <Box
+                        onClick={() => setDrinkOption("mint")}
+                        className="flex justify-between cursor-pointer"
+                      >
+                        <Typography>Mint Margarita</Typography>
+                        <Radio checked={drinkOption === "mint"} />
+                      </Box>
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+              )}
+
+              {error && (
+                <Typography sx={{ color: "red", fontSize: "12px", mt: 1 }}>
+                  {error}
+                </Typography>
+              )}
+
+              {/* ---------------------------------------------------------------------------------------
               Add On Div 
               --------------------------------------------------------------------------------------- */}
 
@@ -240,9 +331,9 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
                 <p className="font-semibold mb-2">Instructions</p>
 
                 <textarea
-                  className="w-full border rounded-lg p-3 bg-[#faf8f7] "
-                  rows={3}
-                  placeholder="Any special requests?"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  className="w-full border rounded-lg p-3 bg-[#faf8f7]"
                 />
               </div>
             </div>

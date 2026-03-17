@@ -7,14 +7,14 @@ export default function FriesSection({ setInCart, setCartOpen }) {
       title: "Pizza Fries",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "650",
+      price: 650,
     },
     {
       image: "/images/fries.png",
       title: "Plan Fries",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "150",
+      price: 150,
     },
   ];
   return (

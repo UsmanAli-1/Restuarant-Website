@@ -7,27 +7,27 @@ export default function SandwichSection({ setInCart ,setCartOpen }) {
       title: "Crispy Chicken Sandwich",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "450",
+      price: 450,
     },
     {
       image: "/images/sandwich2.png",
       title: "Chicken Sandwich",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "300",
+      price: 300,
     },
     {
       image: "/images/sandwich3.png",
       title: "Tikka Sandwich",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "350",
+      price: 350,
     },
     {
       image: "/images/sandwich4.png",
       title: "Club Sandwich",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "400",
+      price: 400,
     },
   ];
   return (

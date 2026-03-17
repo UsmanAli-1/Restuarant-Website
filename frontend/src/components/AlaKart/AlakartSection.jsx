@@ -7,14 +7,14 @@ export default function AlakartSection({ setInCart , setCartOpen}) {
       title: "Pizza Bites",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
     {
       image: "/images/Lasagna.webp",
       title: "Lasagna",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
   ];
   return (

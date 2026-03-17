@@ -7,7 +7,7 @@ export default function PastaSection({ setInCart, setCartOpen }) {
       title: "Cheesy Pasta",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
   ];
   return (

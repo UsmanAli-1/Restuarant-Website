@@ -7,7 +7,7 @@ export default function RollsSection({ setInCart, setCartOpen }) {
       title: "Crispy Roll",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -15,7 +15,7 @@ export default function RollsSection({ setInCart, setCartOpen }) {
       title: "Chatni Roll",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -23,14 +23,14 @@ export default function RollsSection({ setInCart, setCartOpen }) {
       title: "Mayo Garlic Roll",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "829",
+      price: 829,
     },
 
     {
       image: "/images/roll4.png",
       title: "Malai Boti Roll",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -38,7 +38,7 @@ export default function RollsSection({ setInCart, setCartOpen }) {
       title: "Reshmi Kabab Roll",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
 
     {
@@ -46,7 +46,7 @@ export default function RollsSection({ setInCart, setCartOpen }) {
       title: "Seekh Kabab Roll",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
   ];
   return (

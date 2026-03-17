@@ -7,34 +7,34 @@ export default function DealsSection({ setInCart, setCartOpen }) {
       title: "Philly Cheesesteak",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "799",
+      price: 799,
     },
     {
       image: "/images/deal2.jpg",
       title: "Salsa Jalapeno",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "799",
+      price: 799,
     },
     {
       image: "/images/deal3.jpg",
       title: "Meg Classic",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "829",
+      price: 829,
     },
     {
       image: "/images/deal4.jpg",
       title: "Smokehouse",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "799",
+      price: 799,
     },
     {
       image: "/images/deal5.jpg",
       title: "Shroom Melt",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "799",
+      price: 799,
     },
   ];
   return (

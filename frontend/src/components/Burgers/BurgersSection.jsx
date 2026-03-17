@@ -7,34 +7,34 @@ export default function BurgersSection({ setInCart, setCartOpen }) {
       title: "Zinger Burger / cheese",
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
-      price: "400",
+      price: 400,
     },
     {
       image: "/images/bosszinger.jpg",
       title: "Boss Zinger",
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
-      price: "799",
+      price: 799,
     },
     {
       image: "/images/beef.jpg",
       title: "Beef Burger",
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
-      price: "350",
+      price: 350,
     },
     {
       image: "/images/zinger1.jpg",
       title: "Zinger Burger",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
-      price: "350",
+      price: 350,
     },
     {
       image: "/images/beef.jpg",
       title: "Chicken Burger",
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
-      price: "350",
+      price: 350,
     },
   ];
   return (

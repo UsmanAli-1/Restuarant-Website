@@ -5,56 +5,56 @@ export default function PopularSection({ setInCart, setCartOpen }) {
     {
       image: "/images/zinger.jpg",
       title: "zinger Burger",
-      price: "350",
+      price: 350,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/pizzafries.jpg",
       title: "Pizza Fries",
-      price: "650",
+      price: 650,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/pizza1.jpg",
       title: "Tikka Flavor Pizza ",
-      price: "799",
+      price: 799,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/bosszinger.jpg",
       title: "Boss Zinger",
-      price: "650",
+      price: 650,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/malaiboti.png",
       title: "Malai Boti",
-      price: "650",
+      price: 650,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/roll4.png",
       title: "Chatni Roll",
-      price: "190",
+      price: 190,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/sandwich4.png",
       title: "Club Sandwich",
-      price: "350",
+      price: 350,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },
     {
       image: "/images/tikkachest.png",
       title: "Chicken Tikka Chest",
-      price: "450",
+      price: 450,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
     },

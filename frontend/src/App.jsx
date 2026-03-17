@@ -13,19 +13,32 @@ import FriesSection from "./components/Fries/FriesSection";
 import BeveragesSection from "./components/Beverages/BeveragesSection";
 import DealsSection from "./components/Deals/DealsSection";
 import Footer from "./components/Footer";
-import CartDrawer from "./components/CartDrawer";
+import CartDrawer from "./components/Carts/CartDrawer";
 import { useState } from "react";
+import FloatingCart from "./components/Carts/FloatingCart";
+import ScrollTop from "./components/Others/ScrollTop";
+import WhatsAppButton from "./components/Others/WhatsappButton";
 
 function App() {
   const [inCart, setInCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+
+  const getItemTotal = (item) => {
+    const base = Number(item.price) || 0;
+    const meal = Number(item.meal?.price) || 0;
+    const addon = Number(item.addon?.price) || 0;
+
+    return (base + meal + addon) * (item.quantity || 1);
+  };
+
+  const subtotal = inCart.reduce((acc, item) => acc + getItemTotal(item), 0);
 
   return (
     <>
       <WarningHeader />
       <UpperHeader setCartOpen={setCartOpen} inCart={inCart} />
       <Header />
-      <div className="mt-30 px-4 md:px-8 max-w-[1200px] mx-auto">
+      <div className="mt-20 px-4 md:px-8 max-w-[1200px] mx-auto">
         <section id="popular" className="scroll-mt-32">
           <PopularSection setInCart={setInCart} setCartOpen={setCartOpen} />
         </section>
@@ -78,6 +91,16 @@ function App() {
         onClose={() => setCartOpen(false)}
         inCart={inCart}
         setInCart={setInCart}
+        subtotal={subtotal}
+        getItemTotal={getItemTotal}
+      />
+
+      <WhatsAppButton />
+      <ScrollTop />
+      <FloatingCart
+        inCart={inCart}
+        subtotal={subtotal}
+        setCartOpen={setCartOpen}
       />
     </>
   );
