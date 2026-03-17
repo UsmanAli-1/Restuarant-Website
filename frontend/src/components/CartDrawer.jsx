@@ -55,7 +55,7 @@ export default function CartDrawer({ open, onClose, inCart = [], setInCart }) {
           borderBottomLeftRadius: { sm: "12px" },
           overflow: "hidden",
           marginTop: { xs: "78px", sm: "0px", md: "0px" },
-          height: { xs: "90vh", sm: "100vh", md: "100vh" },
+          height: { xs: "80vh", sm: "100vh", md: "100vh" },
         },
       }}
     >

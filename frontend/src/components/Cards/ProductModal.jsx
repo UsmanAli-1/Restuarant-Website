@@ -41,6 +41,9 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
 
   return (
     <>
+      {/* ---------------------------------------------------------------------------------------
+      Main Div 
+      --------------------------------------------------------------------------------------- */}
       <Dialog
         open={open}
         onClose={onClose}
@@ -59,7 +62,6 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
             // DESKTOP HEIGHT
             maxHeight: { md: "650px" },
 
-            // ROUND ONLY TOP ON MOBILE
             borderTopLeftRadius: { xs: "20px", md: "8px" },
             borderTopRightRadius: { xs: "20px", md: "8px" },
             borderBottomLeftRadius: { xs: "0px", md: "8px" },
@@ -79,6 +81,7 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
           },
         }}
       >
+        {/* Mobile Close Icon  */}
         <IconButton
           onClick={onClose}
           sx={{
@@ -98,6 +101,9 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
           <CloseIcon />
         </IconButton>
 
+        {/* ---------------------------------------------------------------------------------------
+        Inner Div 
+        --------------------------------------------------------------------------------------- */}
         <div className="flex flex-col md:flex-row h-full">
           {/* LEFT IMAGE */}
           <div className="md:w-1/2 w-full h-[260px] md:h-full bg-black flex-shrink-0">
@@ -105,8 +111,10 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
           </div>
 
           {/* RIGHT PANEL */}
+
           <div className="flex flex-col md:w-1/2 h-full bg-white relative">
-            {/* CLOSE */}
+            {/* CLOSE ICON */}
+
             <IconButton
               onClick={onClose}
               className="hidden !absolute right-3 top-3 !bg-gray-200  "
@@ -118,7 +126,10 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
               <CloseIcon />
             </IconButton>
 
-            {/* SCROLL AREA */}
+            {/* ---------------------------------------------------------------------------------------
+            Description Div 
+            --------------------------------------------------------------------------------------- */}
+
             <div className="flex-1 overflow-y-auto p-6 no-scrollbar">
               <div>
                 <h2 className="text-xl font-bold">{item?.title}</h2>
@@ -130,7 +141,10 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
                 </p>
               </div>
 
-              {/* DROPDOWNS */}
+              {/* ---------------------------------------------------------------------------------------
+              Make it a Meal Div 
+              --------------------------------------------------------------------------------------- */}
+
               <Accordion
                 sx={{
                   mt: 2,
@@ -181,6 +195,10 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
                 </AccordionDetails>
               </Accordion>
 
+              {/* ---------------------------------------------------------------------------------------
+              Add On Div 
+              --------------------------------------------------------------------------------------- */}
+
               <Accordion
                 sx={{
                   mt: 2,
@@ -214,7 +232,10 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
                 </AccordionDetails>
               </Accordion>
 
-              {/* INSTRUCTIONS */}
+              {/* ---------------------------------------------------------------------------------------
+              Instruction Div 
+              --------------------------------------------------------------------------------------- */}
+
               <div>
                 <p className="font-semibold mb-2">Instructions</p>
 
@@ -226,7 +247,10 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
               </div>
             </div>
 
-            {/* FOOTER */}
+            {/* ---------------------------------------------------------------------------------------
+            Footer Div  
+            --------------------------------------------------------------------------------------- */}
+
             <div className="bg-white border-t border-gray-300 p-4 flex-shrink-0 sticky bottom-0 z-20">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 {/* COUNTER */}
@@ -264,7 +288,6 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
           </div>
         </div>
       </Dialog>
-      
     </>
   );
 }
