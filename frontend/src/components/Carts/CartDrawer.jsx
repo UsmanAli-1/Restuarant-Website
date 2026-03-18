@@ -9,10 +9,22 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import { getItemTotal } from "../../utils/cart";
+import Checkout from "../../Pages/Checkout";
+// import { useNavigate } from "react-router-dom";
+// import {  } from "../../Pages/Checkout";
 
-export default function CartDrawer({ open, onClose, inCart = [], setInCart , subtotal , getItemTotal }) {
+export default function CartDrawer({
+  open,
+  onClose,
+  inCart = [],
+  setInCart,
+  subtotal,
+}) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // const navigate = useNavigate();
 
   function handleDelete(index) {
     setInCart((prev) => prev.filter((_, i) => i !== index));
@@ -42,7 +54,6 @@ export default function CartDrawer({ open, onClose, inCart = [], setInCart , sub
   const delivery = 150;
 
   const grandTotal = subtotal + delivery;
-
 
   return (
     // ---------------------------------------
@@ -417,6 +428,7 @@ export default function CartDrawer({ open, onClose, inCart = [], setInCart , sub
                   cursor: "pointer",
                   mb: 2,
                 }}
+                // onClick={navigate("../../Pages/Checkout")}
               >
                 Checkout
               </Box>
@@ -424,6 +436,11 @@ export default function CartDrawer({ open, onClose, inCart = [], setInCart , sub
           )}
         </Box>
       </Drawer>
+      <Checkout 
+      inCart={inCart}
+      getItemTotal={getItemTotal}
+      subtotal={subtotal}
+      />
     </>
   );
 }

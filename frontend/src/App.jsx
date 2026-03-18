@@ -18,18 +18,11 @@ import { useState } from "react";
 import FloatingCart from "./components/Carts/FloatingCart";
 import ScrollTop from "./components/Others/ScrollTop";
 import WhatsAppButton from "./components/Others/WhatsappButton";
+import { getItemTotal } from "./utils/cart";
 
 function App() {
   const [inCart, setInCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
-
-  const getItemTotal = (item) => {
-    const base = Number(item.price) || 0;
-    const meal = Number(item.meal?.price) || 0;
-    const addon = Number(item.addon?.price) || 0;
-
-    return (base + meal + addon) * (item.quantity || 1);
-  };
 
   const subtotal = inCart.reduce((acc, item) => acc + getItemTotal(item), 0);
 
@@ -92,7 +85,6 @@ function App() {
         inCart={inCart}
         setInCart={setInCart}
         subtotal={subtotal}
-        getItemTotal={getItemTotal}
       />
 
       <WhatsAppButton />

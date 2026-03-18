@@ -13,6 +13,7 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
+import { getItemTotal } from "../../utils/cart";
 
 export default function ProductModal({ open, onClose, item, setInCart }) {
   const [quantity, setQuantity] = useState(1);
@@ -52,7 +53,6 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
     },
   };
 
-  
   const handleAddtocart = () => {
     if (mealOption && !drinkOption) {
       setError("Please select a drink");
@@ -77,10 +77,19 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
 
     setMealOption("");
     setAddonOption("");
+    setDrinkOption("");
     setNote("");
 
     onClose();
   };
+
+  function handleClose() {
+    setMealOption("");
+    setAddonOption("");
+    setDrinkOption("");
+    setNote("");
+    onClose();
+  }
 
   return (
     <>
@@ -126,7 +135,7 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
       >
         {/* Mobile Close Icon  */}
         <IconButton
-          onClick={onClose}
+          onClick={handleClose}
           sx={{
             position: "fixed",
             top: "20px",
@@ -159,8 +168,8 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
             {/* CLOSE ICON */}
 
             <IconButton
-              onClick={onClose}
-              className="hidden !absolute right-3 top-3 !bg-gray-200  "
+              onClick={handleClose}
+              className="hidden !absolute right-3 top-3 !bg-gray-200 z-50 "
               sx={{
                 borderRadius: "8px",
                 display: { xs: "none", md: "flex" },
@@ -370,7 +379,7 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
                   onClick={() => handleAddtocart(item, onClose)}
                   className="bg-black text-white py-3 px-3 md:px-6 rounded-lg font-semibold flex justify-between md:justify-center md:gap-10 lg:gap-18 w-full md:w-auto "
                 >
-                  <span>Rs. {item?.price}.00</span>
+                  <span>Rs. {getItemTotal(item).toLocaleString()}</span>
 
                   <span>Add To Cart</span>
                 </button>

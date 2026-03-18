@@ -1,4 +1,5 @@
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+
 export default function FloatingCart({ inCart = [], subtotal, setCartOpen }) {
   if (!inCart || inCart.length === 0) return null;
 
