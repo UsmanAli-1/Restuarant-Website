@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -30,16 +30,115 @@ const inputSx = {
   },
 };
 
-export default function Checkout() {
-  const { state } = useLocation();
-  const inCart = state?.inCart || [];
-  const subtotal = state?.subtotal || 0;
+export default function Checkout({ inCart = [], subtotal = 0, setInCart , setCartOpen={setCartOpen} }) {
   const navigate = useNavigate();
 
   const [selectedPayment, setSelectedPayment] = useState("cod");
 
+  /* ── controlled form state ── */
+  const [form, setForm] = useState({
+    fullName: "",
+    mobileNumber: "",
+    email: "",
+    address: "",
+    instructions: "",
+  });
+
+  /* ── validation errors state ── */
+  const [errors, setErrors] = useState({
+    fullName: "",
+    mobileNumber: "",
+    address: "",
+  });
+
+  /* ── clear error on typing ── */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  /* ── validate required fields ── */
+  const validate = () => {
+    const newErrors = {
+      fullName: "",
+      mobileNumber: "",
+      address: "",
+    };
+    let isValid = true;
+
+    if (!form.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+      isValid = false;
+    }
+
+    if (!form.mobileNumber.trim()) {
+      newErrors.mobileNumber = "Mobile number is required";
+      isValid = false;
+    } else if (!/^3[0-9]{9}$/.test(form.mobileNumber.trim())) {
+      newErrors.mobileNumber = "Enter a valid number e.g. 3001234567";
+      isValid = false;
+    }
+
+    if (!form.address.trim()) {
+      newErrors.address = "Delivery address is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const delivery = 150;
   const grandTotal = subtotal + delivery;
+
+  /* ── place order ── */
+  const handlePlaceOrder = () => {
+    if (!validate()) return;
+
+    const orderDetails = {
+      customerInfo: {
+        fullName: form.fullName,
+        mobileNumber: `+92${form.mobileNumber}`,
+        email: form.email || "Not provided",
+        address: form.address,
+      },
+      specialInstructions: form.instructions || "None",
+      paymentMethod:
+        selectedPayment === "cod" ? "Cash On Delivery" : selectedPayment,
+      cartItems: inCart.map((item) => ({
+        title: item.title,
+        quantity: item.quantity ?? 1,
+        addon: item.addon?.label || null,
+        meal: item.meal?.label || null,
+        drink: item.drink?.label || null,
+        itemTotal: getItemTotal(item),
+      })),
+      pricing: {
+        subtotal,
+        deliveryCharges: delivery,
+        grandTotal,
+      },
+    };
+
+    console.log("📦 Order Details:", orderDetails);
+    alert("✅ Order Placed Successfully!");
+    setInCart("");
+    setForm({
+      fullName: "",
+      mobileNumber: "",
+      email: "",
+      address: "",
+      instructions: "",
+    });
+    setCartOpen(false)
+    
+    navigate("/")
+
+
+  };
 
   return (
     <div className="bg-black min-h-screen">
@@ -47,7 +146,6 @@ export default function Checkout() {
 
       <div className="flex justify-center w-full">
         <Box className="bg-white w-full max-w-[1500px] md:px-5 py-8 mt-33 mb-5 rounded-lg mx-4 md:mx-6">
-
           {/* BREADCRUMB */}
           <div className="flex items-center gap-1 mb-3 ml-3 md:ml-0">
             <span
@@ -62,43 +160,70 @@ export default function Checkout() {
 
           {/* ── TWO-COLUMN LAYOUT ── */}
           <div className="flex flex-col lg:flex-row gap-8 max-w-[1300px] mx-auto">
-
             {/* ════════════════ LEFT ════════════════ */}
             <div className="flex-1 min-w-0 flex flex-col gap-4 mx-3 md:mx-0">
-
               {/* ── USER INFO CARD ── */}
               <div className="bg-gray-100/60 rounded-xl p-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-
                   {/* Full Name */}
                   <div className="flex flex-col gap-1">
                     <label className="text-[15px] text-gray-700 font-medium">
-                      Full Name
+                      Full Name <span className="text-red-500">*</span>
                     </label>
                     <TextField
+                      name="fullName"
+                      value={form.fullName}
+                      onChange={handleChange}
                       placeholder="Enter your name"
                       fullWidth
                       size="small"
-                      sx={inputSx}
+                      error={!!errors.fullName}
+                      helperText={errors.fullName}
+                      sx={{
+                        ...inputSx,
+                        "& .MuiOutlinedInput-root.Mui-error fieldset": {
+                          borderColor: "#ef4444",
+                        },
+                        "& .MuiFormHelperText-root": {
+                          fontSize: "11px",
+                          marginLeft: "4px",
+                        },
+                      }}
                     />
                   </div>
 
                   {/* Mobile Number */}
                   <div className="flex flex-col gap-1">
                     <label className="text-[15px] text-gray-700 font-medium">
-                      Mobile Number
+                      Mobile Number <span className="text-red-500">*</span>
                     </label>
                     <TextField
+                      name="mobileNumber"
+                      value={form.mobileNumber}
+                      onChange={handleChange}
                       fullWidth
                       size="small"
                       placeholder="3XX-XXXXXXX"
-                      sx={inputSx}
+                      error={!!errors.mobileNumber}
+                      helperText={errors.mobileNumber}
+                      sx={{
+                        ...inputSx,
+                        "& .MuiOutlinedInput-root.Mui-error fieldset": {
+                          borderColor: "#ef4444",
+                        },
+                        "& .MuiFormHelperText-root": {
+                          fontSize: "11px",
+                          marginLeft: "4px",
+                        },
+                      }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <div className="flex items-center gap-1 pr-2 border-r border-gray-300">
                               <span className="text-base leading-none">🇵🇰</span>
-                              <span className="text-[13px] text-gray-700">+92</span>
+                              <span className="text-[13px] text-gray-700">
+                                +92
+                              </span>
                             </div>
                           </InputAdornment>
                         ),
@@ -109,9 +234,15 @@ export default function Checkout() {
                   {/* Email */}
                   <div className="flex flex-col gap-1">
                     <label className="text-[15px] text-gray-700 font-medium">
-                      Email Address
+                      Email Address{" "}
+                      <span className="text-gray-400 font-normal text-[12px]">
+                        (Optional)
+                      </span>
                     </label>
                     <TextField
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
                       placeholder="Enter your email address"
                       fullWidth
                       size="small"
@@ -123,8 +254,29 @@ export default function Checkout() {
                 {/* Address */}
                 <div className="mt-5 mb-2">
                   <p className="text-[15px] text-gray-700 font-medium mb-2">
-                    Your Address
+                    Your Address <span className="text-red-500">*</span>
                   </p>
+                  <TextField
+                    name="address"
+                    value={form.address}
+                    onChange={handleChange}
+                    placeholder="Enter your delivery address"
+                    fullWidth
+                    size="small"
+                    error={!!errors.address}
+                    helperText={errors.address}
+                    sx={{
+                      ...inputSx,
+                      mb: 1,
+                      "& .MuiOutlinedInput-root.Mui-error fieldset": {
+                        borderColor: "#ef4444",
+                      },
+                      "& .MuiFormHelperText-root": {
+                        fontSize: "11px",
+                        marginLeft: "4px",
+                      },
+                    }}
+                  />
                   <Button
                     variant="contained"
                     disableElevation
@@ -136,6 +288,7 @@ export default function Checkout() {
                       fontSize: "13px",
                       fontWeight: "bold",
                       textTransform: "none",
+                      mt: 1,
                       "&:hover": { backgroundColor: "#333 !important" },
                     }}
                   >
@@ -150,6 +303,9 @@ export default function Checkout() {
                   Special Instructions ( Optional )
                 </p>
                 <TextField
+                  name="instructions"
+                  value={form.instructions}
+                  onChange={handleChange}
                   multiline
                   rows={4}
                   fullWidth
@@ -193,10 +349,8 @@ export default function Checkout() {
             </div>
 
             {/* ════════════════ RIGHT – YOUR CART ════════════════ */}
-            <div className="w-full lg:w-[400px] flex-shrink-0 " >
+            <div className="w-full lg:w-[400px] flex-shrink-0">
               <div className="bg-gray-100/60 rounded-2xl p-4 lg:sticky lg:top-5 mx-3 md:mx-0">
-
-                {/* heading */}
                 <p className="text-[15px] font-semibold text-gray-900 mb-4">
                   Your Cart
                 </p>
@@ -206,7 +360,6 @@ export default function Checkout() {
                   {inCart.map((item, index) => (
                     <Box key={index}>
                       <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
-
                         {/* IMAGE */}
                         <Box
                           sx={{
@@ -220,7 +373,11 @@ export default function Checkout() {
                           <img
                             src={item.image}
                             alt={item.title}
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
                           />
                         </Box>
 
@@ -230,7 +387,13 @@ export default function Checkout() {
                             {item.title}
                           </Typography>
 
-                          <Typography sx={{ fontSize: "13px", color: "#7a7a7a", maxWidth: "240px" }}>
+                          <Typography
+                            sx={{
+                              fontSize: "13px",
+                              color: "#7a7a7a",
+                              maxWidth: "240px",
+                            }}
+                          >
                             {item.description}
                           </Typography>
 
@@ -238,7 +401,13 @@ export default function Checkout() {
                           <Box sx={{ color: "#7a7a7a", mt: "5px" }}>
                             {item.addon && (
                               <>
-                                <Typography sx={{ fontSize: "12px", color: "black", fontWeight: "semibold" }}>
+                                <Typography
+                                  sx={{
+                                    fontSize: "12px",
+                                    color: "black",
+                                    fontWeight: "semibold",
+                                  }}
+                                >
                                   Add On
                                 </Typography>
                                 <Typography sx={{ fontSize: "13px" }}>
@@ -246,10 +415,16 @@ export default function Checkout() {
                                 </Typography>
                               </>
                             )}
-
                             {item.meal && (
                               <>
-                                <Typography sx={{ fontSize: "12px", color: "black", fontWeight: "semibold", mt: 0.5 }}>
+                                <Typography
+                                  sx={{
+                                    fontSize: "12px",
+                                    color: "black",
+                                    fontWeight: "semibold",
+                                    mt: 0.5,
+                                  }}
+                                >
                                   Make It A Meal
                                 </Typography>
                                 <Typography sx={{ fontSize: "13px" }}>
@@ -257,10 +432,16 @@ export default function Checkout() {
                                 </Typography>
                               </>
                             )}
-
                             {item.drink && (
                               <>
-                                <Typography sx={{ fontSize: "12px", color: "black", fontWeight: "semibold", mt: 0.5 }}>
+                                <Typography
+                                  sx={{
+                                    fontSize: "12px",
+                                    color: "black",
+                                    fontWeight: "semibold",
+                                    mt: 0.5,
+                                  }}
+                                >
                                   Drinks
                                 </Typography>
                                 <Typography sx={{ fontSize: "13px" }}>
@@ -268,16 +449,29 @@ export default function Checkout() {
                                 </Typography>
                               </>
                             )}
-
                             {item.instructions && (
-                              <Typography sx={{ fontSize: "13px", fontStyle: "italic", color: "#9e9e9e" }}>
+                              <Typography
+                                sx={{
+                                  fontSize: "13px",
+                                  fontStyle: "italic",
+                                  color: "#9e9e9e",
+                                }}
+                              >
                                 "{item.instructions}"
                               </Typography>
                             )}
                           </Box>
 
                           {/* ITEM PRICE */}
-                          <Typography sx={{ fontWeight: "bold", display: "flex", justifyContent: "flex-end", color: "black", mt: 1 }}>
+                          <Typography
+                            sx={{
+                              fontWeight: "bold",
+                              display: "flex",
+                              justifyContent: "flex-end",
+                              color: "black",
+                              mt: 1,
+                            }}
+                          >
                             Rs. {getItemTotal(item).toLocaleString()}
                           </Typography>
 
@@ -289,7 +483,6 @@ export default function Checkout() {
                           </div>
                         </Box>
                       </Box>
-
                       <div className="border-t border-gray-200 my-3" />
                     </Box>
                   ))}
@@ -315,16 +508,18 @@ export default function Checkout() {
                       Rs. {subtotal.toLocaleString()}
                     </span>
                   </div>
-
                   <div className="flex justify-between items-center">
-                    <span className="text-[13px] text-gray-600">Delivery Charges</span>
+                    <span className="text-[13px] text-gray-600">
+                      Delivery Charges
+                    </span>
                     <span className="text-[13px] text-gray-700">
                       Rs. {delivery.toLocaleString()}
                     </span>
                   </div>
-
                   <div className="flex justify-between items-center">
-                    <span className="text-[14px] font-bold text-gray-900">Grand total</span>
+                    <span className="text-[14px] font-bold text-gray-900">
+                      Grand total
+                    </span>
                     <span className="text-[14px] font-bold text-blue-600">
                       Rs. {grandTotal.toLocaleString()}
                     </span>
@@ -335,6 +530,7 @@ export default function Checkout() {
                 <Button
                   fullWidth
                   disableElevation
+                  onClick={handlePlaceOrder}
                   sx={{
                     backgroundColor: "#111 !important",
                     color: "#fff !important",
@@ -352,7 +548,6 @@ export default function Checkout() {
                 </Button>
               </div>
             </div>
-
           </div>
         </Box>
       </div>

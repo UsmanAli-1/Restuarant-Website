@@ -13,18 +13,11 @@ import BeveragesSection from "../components/Beverages/BeveragesSection";
 import DealsSection from "../components/Deals/DealsSection";
 import Footer from "../components/Footer";
 import CartDrawer from "../components/Carts/CartDrawer";
-import { useState } from "react";
 import FloatingCart from "../components/Carts/FloatingCart";
 import ScrollTop from "../components/Others/ScrollTop";
 import WhatsAppButton from "../components/Others/WhatsappButton";
-import { getItemTotal } from "../utils/cart";
 
-function Home() {
-  const [inCart, setInCart] = useState([]);
-  const [cartOpen, setCartOpen] = useState(false);
-
-  const subtotal = inCart.reduce((acc, item) => acc + getItemTotal(item), 0);
-
+function Home({ inCart, setInCart, cartOpen, setCartOpen, subtotal }) {
   return (
     <>
       <UpperHeader setCartOpen={setCartOpen} inCart={inCart} showCart={true} />
