@@ -58,7 +58,7 @@ export default function Header() {
   }, [activeSection]);
 
   return (
-    <div className="bg-white w-full h-11 fixed top-19 z-50 flex justify-center border-b">
+    <div className="bg-white w-full h-11 fixed top-28 z-50 flex justify-center border-b">
       {/* CENTER CONTAINER */}
       <div className="relative w-full max-w-6xl flex items-center">
         {/* SCROLL AREA */}

@@ -1,12 +1,16 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import Footer from "../components/Footer";
 import UpperHeader from "../components/Headers/UpperHeader";
-import WarningHeader from "../components/Headers/WarningHeader";
+import { useLocation } from "react-router-dom";
+import { getItemTotal } from "../utils/cart"; 
 
-export default function Checkout({ inCart = [], getItemTotal, subtotal }) {
+export default function Checkout() {
+  const { state } = useLocation();
+
+  const inCart = state?.inCart || [];
+  const subtotal = state?.subtotal || 0;
   return (
     <>
-      <WarningHeader />
       <UpperHeader />
 
       <Box className="bg-[#f5f5f5] min-h-screen px-4 md:px-10 py-6">
