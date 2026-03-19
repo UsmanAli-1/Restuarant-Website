@@ -1,170 +1,363 @@
-import { Box, Typography, TextField, Button } from "@mui/material";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+} from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Footer from "../components/Footer";
 import UpperHeader from "../components/Headers/UpperHeader";
-import { useLocation } from "react-router-dom";
-import { getItemTotal } from "../utils/cart"; 
+import { getItemTotal } from "../utils/cart";
+
+/* ─── shared input sx ─── */
+const inputSx = {
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "10px",
+    fontSize: "13px",
+    backgroundColor: "#fff",
+    "& fieldset": { borderColor: "#d1d5db" },
+    "&:hover fieldset": { borderColor: "#9ca3af" },
+    "&.Mui-focused fieldset": { borderColor: "#6b7280", borderWidth: "1px" },
+  },
+  "& .MuiInputBase-input": {
+    fontSize: "13px",
+    color: "#111",
+    padding: "14px 14px",
+    "&::placeholder": { color: "#9ca3af", opacity: 1 },
+  },
+};
 
 export default function Checkout() {
   const { state } = useLocation();
-
   const inCart = state?.inCart || [];
   const subtotal = state?.subtotal || 0;
+  const navigate = useNavigate();
+
+  const [selectedPayment, setSelectedPayment] = useState("cod");
+
+  const delivery = 150;
+  const grandTotal = subtotal + delivery;
+
   return (
-    <>
-      <UpperHeader />
+    <div className="bg-black min-h-screen">
+      <UpperHeader showCart={false} />
 
-      <Box className="bg-[#f5f5f5] min-h-screen px-4 md:px-10 py-6">
-        {/* BREADCRUMB */}
-        <Typography className="text-sm text-gray-500 mb-4">
-          Home &gt; <span className="text-black font-medium">Checkout</span>
-        </Typography>
+      <div className="flex justify-center w-full">
+        <Box className="bg-white w-full max-w-[1500px] md:px-5 py-8 mt-33 mb-5 rounded-lg mx-4 md:mx-6">
 
-        <Box className="flex flex-col lg:flex-row gap-6">
-          {/* LEFT SIDE */}
-          <Box className="flex-1 space-y-5">
-            {/* INPUTS */}
-            <Box className="bg-white p-5 rounded-xl shadow-sm">
-              <Box className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <TextField label="Full Name" fullWidth size="small" />
-                <TextField label="Mobile Number" fullWidth size="small" />
-                <TextField label="Email Address" fullWidth size="small" />
-              </Box>
+          {/* BREADCRUMB */}
+          <div className="flex items-center gap-1 mb-3 ml-3 md:ml-0">
+            <span
+              onClick={() => navigate("/")}
+              className="text-[12px] text-gray-400 cursor-pointer hover:underline"
+            >
+              Home
+            </span>
+            <ChevronRightIcon sx={{ fontSize: 13, color: "#9ca3af" }} />
+            <span className="text-[12px] text-black font-medium">Checkout</span>
+          </div>
 
-              <Box className="mt-5">
-                <Typography className="text-sm mb-2">Your Address</Typography>
-                <Button
-                  variant="contained"
-                  className="!bg-black !text-white !rounded-lg"
+          {/* ── TWO-COLUMN LAYOUT ── */}
+          <div className="flex flex-col lg:flex-row gap-8 max-w-[1300px] mx-auto">
+
+            {/* ════════════════ LEFT ════════════════ */}
+            <div className="flex-1 min-w-0 flex flex-col gap-4 mx-3 md:mx-0">
+
+              {/* ── USER INFO CARD ── */}
+              <div className="bg-gray-100/60 rounded-xl p-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+
+                  {/* Full Name */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[15px] text-gray-700 font-medium">
+                      Full Name
+                    </label>
+                    <TextField
+                      placeholder="Enter your name"
+                      fullWidth
+                      size="small"
+                      sx={inputSx}
+                    />
+                  </div>
+
+                  {/* Mobile Number */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[15px] text-gray-700 font-medium">
+                      Mobile Number
+                    </label>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      placeholder="3XX-XXXXXXX"
+                      sx={inputSx}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <div className="flex items-center gap-1 pr-2 border-r border-gray-300">
+                              <span className="text-base leading-none">🇵🇰</span>
+                              <span className="text-[13px] text-gray-700">+92</span>
+                            </div>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[15px] text-gray-700 font-medium">
+                      Email Address
+                    </label>
+                    <TextField
+                      placeholder="Enter your email address"
+                      fullWidth
+                      size="small"
+                      sx={inputSx}
+                    />
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="mt-5 mb-2">
+                  <p className="text-[15px] text-gray-700 font-medium mb-2">
+                    Your Address
+                  </p>
+                  <Button
+                    variant="contained"
+                    disableElevation
+                    sx={{
+                      backgroundColor: "#111 !important",
+                      color: "#fff !important",
+                      borderRadius: "10px",
+                      padding: "10px 18px",
+                      fontSize: "13px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      "&:hover": { backgroundColor: "#333 !important" },
+                    }}
+                  >
+                    Add / Change Address
+                  </Button>
+                </div>
+              </div>
+
+              {/* ── SPECIAL INSTRUCTIONS CARD ── */}
+              <div className="bg-gray-100/60 rounded-xl p-4">
+                <p className="text-[15px] text-gray-700 font-medium mb-2 mt-3">
+                  Special Instructions ( Optional )
+                </p>
+                <TextField
+                  multiline
+                  rows={4}
+                  fullWidth
+                  placeholder="Add any comment e.g about allergies, or delivery instructions here."
+                  sx={inputSx}
+                />
+              </div>
+
+              {/* ── PAYMENT METHOD CARD ── */}
+              <div className="bg-gray-100/60 rounded-xl p-4">
+                <p className="text-[15px] text-gray-700 font-medium mb-3 mt-3">
+                  Select Payment Method
+                </p>
+
+                {/* COD pill */}
+                <div
+                  onClick={() => setSelectedPayment("cod")}
+                  className={`inline-flex items-center gap-2 px-4 py-[7px] rounded-lg cursor-pointer select-none transition-all ${
+                    selectedPayment === "cod"
+                      ? "border-2 border-gray-800"
+                      : "border border-gray-300 hover:border-gray-500"
+                  }`}
                 >
-                  Add / Change Address
-                </Button>
-              </Box>
-            </Box>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#374151"
+                    strokeWidth="1.5"
+                  >
+                    <rect x="2" y="6" width="20" height="12" rx="2" />
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M6 12h.01M18 12h.01" strokeLinecap="round" />
+                  </svg>
+                  <span className="text-[13px] font-medium text-gray-800">
+                    Cash On Delivery
+                  </span>
+                </div>
+              </div>
+            </div>
 
-            {/* DELIVERY TIME */}
-            <Box className="bg-white p-5 rounded-xl shadow-sm">
-              <Typography className="text-sm mb-2">
-                Choose Delivery Time
-              </Typography>
-              <TextField
-                placeholder="Click to select time"
-                fullWidth
-                size="small"
-              />
-            </Box>
+            {/* ════════════════ RIGHT – YOUR CART ════════════════ */}
+            <div className="w-full lg:w-[400px] flex-shrink-0 " >
+              <div className="bg-gray-100/60 rounded-2xl p-4 lg:sticky lg:top-5 mx-3 md:mx-0">
 
-            {/* INSTRUCTIONS */}
-            <Box className="bg-white p-5 rounded-xl shadow-sm">
-              <Typography className="text-sm mb-2">
-                Special Instructions ( Optional )
-              </Typography>
-              <TextField
-                multiline
-                rows={4}
-                placeholder="Add any comment e.g about allergies, or delivery instructions here"
-                fullWidth
-              />
-            </Box>
+                {/* heading */}
+                <p className="text-[15px] font-semibold text-gray-900 mb-4">
+                  Your Cart
+                </p>
 
-            {/* PAYMENT */}
-            <Box className="bg-white p-5 rounded-xl shadow-sm">
-              <Typography className="text-sm mb-3">
-                Select Payment Method
-              </Typography>
+                {/* ── CART ITEMS ── */}
+                <div className="flex flex-col">
+                  {inCart.map((item, index) => (
+                    <Box key={index}>
+                      <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
 
-              <Box className="border rounded-lg px-4 py-2 inline-block cursor-pointer">
-                Cash On Delivery
-              </Box>
-            </Box>
-          </Box>
+                        {/* IMAGE */}
+                        <Box
+                          sx={{
+                            width: 60,
+                            height: 60,
+                            flexShrink: 0,
+                            borderRadius: "6px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          />
+                        </Box>
 
-          {/* RIGHT SIDE (CART) */}
-          <Box className="w-full lg:w-[350px]">
-            <Box className="bg-white rounded-xl shadow-sm p-4">
-              <Typography className="font-semibold mb-3">Your Cart</Typography>
+                        {/* RIGHT CONTENT */}
+                        <Box sx={{ flex: 1 }}>
+                          <Typography fontWeight="bold" color="black">
+                            {item.title}
+                          </Typography>
 
-              {/* CART ITEMS */}
-              {inCart.map((item, i) => (
-                <Box key={i} className="flex gap-3 mb-4">
-                  <img
-                    src={item.image}
-                    className="w-14 h-14 rounded-md object-cover"
-                  />
+                          <Typography sx={{ fontSize: "13px", color: "#7a7a7a", maxWidth: "240px" }}>
+                            {item.description}
+                          </Typography>
 
-                  <Box className="flex-1">
-                    <Typography className="font-medium text-sm">
-                      {item.title}
-                    </Typography>
+                          {/* ADD-ONS */}
+                          <Box sx={{ color: "#7a7a7a", mt: "5px" }}>
+                            {item.addon && (
+                              <>
+                                <Typography sx={{ fontSize: "12px", color: "black", fontWeight: "semibold" }}>
+                                  Add On
+                                </Typography>
+                                <Typography sx={{ fontSize: "13px" }}>
+                                  1x {item.addon.label}
+                                </Typography>
+                              </>
+                            )}
 
-                    <Typography className="text-xs text-gray-500">
-                      {item.description}
-                    </Typography>
+                            {item.meal && (
+                              <>
+                                <Typography sx={{ fontSize: "12px", color: "black", fontWeight: "semibold", mt: 0.5 }}>
+                                  Make It A Meal
+                                </Typography>
+                                <Typography sx={{ fontSize: "13px" }}>
+                                  1x {item.meal.label}
+                                </Typography>
+                              </>
+                            )}
 
-                    <Box className="text-xs mt-1">
-                      {item.addon && <div>1x {item.addon.label}</div>}
-                      {item.meal && <div>1x {item.meal.label}</div>}
-                      {item.drink && <div>1x {item.drink.label}</div>}
-                      {item.instructions && (
-                        <div className="italic text-gray-400">
-                          "{item.instructions}"
-                        </div>
-                      )}
+                            {item.drink && (
+                              <>
+                                <Typography sx={{ fontSize: "12px", color: "black", fontWeight: "semibold", mt: 0.5 }}>
+                                  Drinks
+                                </Typography>
+                                <Typography sx={{ fontSize: "13px" }}>
+                                  1x {item.drink.label}
+                                </Typography>
+                              </>
+                            )}
+
+                            {item.instructions && (
+                              <Typography sx={{ fontSize: "13px", fontStyle: "italic", color: "#9e9e9e" }}>
+                                "{item.instructions}"
+                              </Typography>
+                            )}
+                          </Box>
+
+                          {/* ITEM PRICE */}
+                          <Typography sx={{ fontWeight: "bold", display: "flex", justifyContent: "flex-end", color: "black", mt: 1 }}>
+                            Rs. {getItemTotal(item).toLocaleString()}
+                          </Typography>
+
+                          {/* QUANTITY */}
+                          <div className="flex items-center mt-2">
+                            <div className="border border-gray-300 rounded px-3 py-[3px] text-[13px] text-gray-800 min-w-[34px] text-center">
+                              {item.quantity ?? 1}
+                            </div>
+                          </div>
+                        </Box>
+                      </Box>
+
+                      <div className="border-t border-gray-200 my-3" />
                     </Box>
-                  </Box>
+                  ))}
+                </div>
 
-                  <Typography className="text-sm font-semibold">
-                    Rs. {getItemTotal(item).toLocaleString()}
-                  </Typography>
-                </Box>
-              ))}
+                {/* ADD MORE */}
+                <div className="flex justify-center mb-3">
+                  <span
+                    onClick={() => navigate("/")}
+                    className="text-[15px] text-black cursor-pointer underline"
+                  >
+                    + Add more items
+                  </span>
+                </div>
 
-              <Typography className="text-xs text-blue-500 cursor-pointer mb-2">
-                + Add more items
-              </Typography>
+                <div className="border-t border-gray-200 my-3" />
 
-              <Box className="border-t my-3" />
+                {/* ORDER SUMMARY */}
+                <div className="mt-4 flex flex-col gap-[10px]">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-gray-600">Subtotal</span>
+                    <span className="text-[13px] text-gray-700">
+                      Rs. {subtotal.toLocaleString()}
+                    </span>
+                  </div>
 
-              <Typography className="text-xs mb-2">
-                * To apply Promo Code, please login
-              </Typography>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[13px] text-gray-600">Delivery Charges</span>
+                    <span className="text-[13px] text-gray-700">
+                      Rs. {delivery.toLocaleString()}
+                    </span>
+                  </div>
 
-              <TextField
-                placeholder="Promo Code"
-                size="small"
-                fullWidth
-                disabled
-              />
+                  <div className="flex justify-between items-center">
+                    <span className="text-[14px] font-bold text-gray-900">Grand total</span>
+                    <span className="text-[14px] font-bold text-blue-600">
+                      Rs. {grandTotal.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
 
-              {/* SUMMARY */}
-              <Box className="mt-4 space-y-2 text-sm">
-                <Box className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>Rs. {subtotal.toLocaleString()}</span>
-                </Box>
+                {/* PLACE ORDER BUTTON */}
+                <Button
+                  fullWidth
+                  disableElevation
+                  sx={{
+                    backgroundColor: "#111 !important",
+                    color: "#fff !important",
+                    marginTop: "14px",
+                    padding: "11px",
+                    borderRadius: "7px",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    textTransform: "none",
+                    letterSpacing: "0.01em",
+                    "&:hover": { backgroundColor: "#2d2d2d !important" },
+                  }}
+                >
+                  Place Order
+                </Button>
+              </div>
+            </div>
 
-                <Box className="flex justify-between">
-                  <span>Delivery Charges</span>
-                  <span>Rs. 50</span>
-                </Box>
-
-                <Box className="flex justify-between font-semibold">
-                  <span>Grand total</span>
-                  <span>Rs. {(subtotal + 50).toLocaleString()}</span>
-                </Box>
-              </Box>
-
-              {/* BUTTON */}
-              <Button
-                fullWidth
-                className="!bg-black !text-white !mt-4 !py-2 !rounded-lg"
-              >
-                Place Order
-              </Button>
-            </Box>
-          </Box>
+          </div>
         </Box>
-      </Box>
+      </div>
+
       <Footer />
-    </>
+    </div>
   );
 }

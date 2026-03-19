@@ -27,7 +27,7 @@ function Home() {
 
   return (
     <>
-      <UpperHeader setCartOpen={setCartOpen} inCart={inCart} />
+      <UpperHeader setCartOpen={setCartOpen} inCart={inCart} showCart={true} />
       <Header />
       <div className="mt-35 px-4 md:px-8 max-w-[1200px] mx-auto">
         <section id="popular" className="scroll-mt-32">

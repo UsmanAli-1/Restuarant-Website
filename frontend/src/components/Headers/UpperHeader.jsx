@@ -5,17 +5,17 @@ import LocationPinIcon from "@mui/icons-material/LocationPin";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 
-export default function UpperHeader({ cartOpen, setCartOpen, inCart }) {
+export default function UpperHeader({ setCartOpen, inCart, showCart = true }) {
   const currentTime = new Date().getHours();
   const isClosed = currentTime < 19 && currentTime >= 1;
   return (
     <>
       {isClosed && (
-        <div className="fixed top-0 left-0 w-full h-8  bg-[#DC3545] font-semibold text-xs md:text-sm flex items-center justify-center ">
+        <div className="fixed top-0 left-0 w-full h-8  bg-[#DC3545] font-semibold text-xs md:text-sm flex items-center justify-center z-50 ">
           <p>Sorry, we are closed right now and will re-open at 7:00 PM.</p>
         </div>
       )}
-      <div className="h-19 bg-black fixed top-8 left-0 w-full z-50 flex justify-center">
+      <div className="h-19 bg-black fixed top-8 left-0 w-full z-50 flex justify-center border-b-[0.5px] border-gray-700/50">
         {/* CENTER CONTAINER */}
         <div className="w-full max-w-6xl px-4 flex items-center">
           <Box sx={{ flexGrow: 1 }}>
@@ -63,16 +63,18 @@ export default function UpperHeader({ cartOpen, setCartOpen, inCart }) {
                   </div>
                 </a>
                 {/* CART */}
-                <div
-                  className="relative hidden md:block cursor-pointer"
-                  onClick={() => setCartOpen(true)}
-                >
-                  <ShoppingBagIcon sx={{ fontSize: { xs: 25, md: 28 } }} />
+                {showCart && (
+                  <div
+                    className="relative hidden md:block cursor-pointer"
+                    onClick={() => setCartOpen(true)}
+                  >
+                    <ShoppingBagIcon sx={{ fontSize: { xs: 25, md: 28 } }} />
 
-                  <span className="absolute -top-2 -right-2 bg-black border text-white text-[10px] md:text-xs w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-md">
-                    {inCart?.length || 0}
-                  </span>
-                </div>
+                    <span className="absolute -top-2 -right-2 bg-black border text-white text-[10px] md:text-xs w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-md">
+                      {inCart?.length || 0}
+                    </span>
+                  </div>
+                )}
               </Grid>
             </Grid>
           </Box>
