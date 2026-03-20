@@ -15,7 +15,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { getItemTotal } from "../../utils/cart";
 
-export default function ProductModal({ open, onClose, item, setInCart }) {
+export default function ProductModal({
+  open,
+  onClose,
+  item,
+  setInCart,
+  showMeal,
+  showaddOn,
+}) {
   const [quantity, setQuantity] = useState(1);
   const [mealOption, setMealOption] = useState("");
   const [addonOption, setAddonOption] = useState("");
@@ -197,55 +204,57 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
               Make it a Meal Div 
               --------------------------------------------------------------------------------------- */}
 
-              <Accordion
-                sx={{
-                  mt: 2,
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                  "&:before": { display: "none" },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  sx={{ bgcolor: "#faf8f7" }}
+              {showMeal && (
+                <Accordion
+                  sx={{
+                    mt: 2,
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    "&:before": { display: "none" },
+                  }}
                 >
-                  <Typography fontWeight="bold">Make It A Meal</Typography>
-                </AccordionSummary>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{ bgcolor: "#faf8f7" }}
+                  >
+                    <Typography fontWeight="bold">Make It A Meal</Typography>
+                  </AccordionSummary>
 
-                <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
-                  <Box className="space-y-3">
-                    <Box
-                      onClick={() =>
-                        setMealOption(mealOption === "fries" ? "" : "fries")
-                      }
-                      className="flex justify-between items-center cursor-pointer"
-                    >
-                      <Typography>Fries & Drink</Typography>
+                  <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
+                    <Box className="space-y-3">
+                      <Box
+                        onClick={() =>
+                          setMealOption(mealOption === "fries" ? "" : "fries")
+                        }
+                        className="flex justify-between items-center cursor-pointer"
+                      >
+                        <Typography>Fries & Drink</Typography>
 
-                      <Box className="flex items-center gap-2">
-                        <Typography>+ Rs.299</Typography>
+                        <Box className="flex items-center gap-2">
+                          <Typography>+ Rs.299</Typography>
 
-                        <Radio checked={mealOption === "fries"} readOnly />
+                          <Radio checked={mealOption === "fries"} readOnly />
+                        </Box>
+                      </Box>
+
+                      <Box
+                        onClick={() =>
+                          setMealOption(mealOption === "curly" ? "" : "curly")
+                        }
+                        className="flex justify-between items-center cursor-pointer"
+                      >
+                        <Typography>Curly Fries & Drink</Typography>
+
+                        <Box className="flex items-center gap-2">
+                          <Typography>+ Rs.549</Typography>
+
+                          <Radio checked={mealOption === "curly"} readOnly />
+                        </Box>
                       </Box>
                     </Box>
-
-                    <Box
-                      onClick={() =>
-                        setMealOption(mealOption === "curly" ? "" : "curly")
-                      }
-                      className="flex justify-between items-center cursor-pointer"
-                    >
-                      <Typography>Curly Fries & Drink</Typography>
-
-                      <Box className="flex items-center gap-2">
-                        <Typography>+ Rs.549</Typography>
-
-                        <Radio checked={mealOption === "curly"} readOnly />
-                      </Box>
-                    </Box>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
+                  </AccordionDetails>
+                </Accordion>
+              )}
 
               {/* ---------------------------------------------------------------------------------------
               Show Drinks Div 
@@ -298,39 +307,40 @@ export default function ProductModal({ open, onClose, item, setInCart }) {
               {/* ---------------------------------------------------------------------------------------
               Add On Div 
               --------------------------------------------------------------------------------------- */}
-
-              <Accordion
-                sx={{
-                  mt: 2,
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                  "&:before": { display: "none" },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  sx={{ bgcolor: "#faf8f7" }}
+              {showaddOn && (
+                <Accordion
+                  sx={{
+                    mt: 2,
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    "&:before": { display: "none" },
+                  }}
                 >
-                  <Typography fontWeight="bold">Add On</Typography>
-                </AccordionSummary>
-
-                <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
-                  <Box
-                    onClick={() =>
-                      setAddonOption(addonOption === "cheese" ? "" : "cheese")
-                    }
-                    className="flex justify-between items-center cursor-pointer"
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{ bgcolor: "#faf8f7" }}
                   >
-                    <Typography>Extra Cheese</Typography>
+                    <Typography fontWeight="bold">Add On</Typography>
+                  </AccordionSummary>
 
-                    <Box className="flex items-center gap-2">
-                      <Typography>+ Rs.120</Typography>
+                  <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
+                    <Box
+                      onClick={() =>
+                        setAddonOption(addonOption === "cheese" ? "" : "cheese")
+                      }
+                      className="flex justify-between items-center cursor-pointer"
+                    >
+                      <Typography>Extra Cheese</Typography>
 
-                      <Radio checked={addonOption === "cheese"} readOnly />
+                      <Box className="flex items-center gap-2">
+                        <Typography>+ Rs.120</Typography>
+
+                        <Radio checked={addonOption === "cheese"} readOnly />
+                      </Box>
                     </Box>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
+                  </AccordionDetails>
+                </Accordion>
+              )}
 
               {/* ---------------------------------------------------------------------------------------
               Instruction Div 

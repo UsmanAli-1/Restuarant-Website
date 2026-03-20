@@ -8,6 +8,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -16,6 +18,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -24,6 +28,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
       price: 829,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -31,6 +37,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "All Cheese",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -39,6 +47,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -47,6 +57,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -55,6 +67,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -63,6 +77,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
       price: 829,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -70,6 +86,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       title: "Smokehouse tikka",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
 
     {
@@ -78,6 +96,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -93,6 +113,8 @@ export default function PizzaSection({ setInCart, setCartOpen }) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

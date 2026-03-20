@@ -8,6 +8,8 @@ export default function PastaSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -23,6 +25,8 @@ export default function PastaSection({ setInCart, setCartOpen }) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import MainCards from "../Cards/MainCards";
 
-export default function AlakartSection({ setInCart , setCartOpen}) {
+export default function AlakartSection({ setInCart, setCartOpen }) {
   const showAlaKart = [
     {
       image: "/images/pizzabite.jpg",
@@ -8,6 +8,7 @@ export default function AlakartSection({ setInCart , setCartOpen}) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 799,
+      showaddon: false,
     },
     {
       image: "/images/Lasagna.webp",
@@ -15,6 +16,8 @@ export default function AlakartSection({ setInCart , setCartOpen}) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -30,6 +33,8 @@ export default function AlakartSection({ setInCart , setCartOpen}) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

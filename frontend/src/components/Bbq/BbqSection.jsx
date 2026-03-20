@@ -8,6 +8,8 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 400,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/tikkachest.png",
@@ -15,6 +17,8 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
       price: 450,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/malaitikka.png",
@@ -22,12 +26,16 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
       price: 450,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/reshmi.png",
       title: "Reshmi Kabab",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
       price: 599,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/kabab2.png",
@@ -35,6 +43,8 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 599,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/malaiboti.png",
@@ -42,6 +52,8 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/boti1.jpg",
@@ -49,6 +61,8 @@ export default function BbqSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -64,6 +78,8 @@ export default function BbqSection({ setInCart, setCartOpen }) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

@@ -9,6 +9,8 @@ export default function PopularCards({
   description,
   setInCart,
   setCartOpen,
+  showmeal = true,
+  showaddon = true,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -45,6 +47,8 @@ export default function PopularCards({
         item={{ image, title, price, description }}
         setInCart={setInCart}
         setCartOpen={setCartOpen}
+        showMeal={showmeal}
+        showaddOn={showaddon}
       />
     </>
   );

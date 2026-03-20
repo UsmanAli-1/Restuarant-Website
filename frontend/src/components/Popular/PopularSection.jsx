@@ -15,6 +15,8 @@ export default function PopularSection({ setInCart, setCartOpen }) {
       price: 650,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/pizza1.jpg",
@@ -22,6 +24,8 @@ export default function PopularSection({ setInCart, setCartOpen }) {
       price: 799,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/bosszinger.jpg",
@@ -36,6 +40,8 @@ export default function PopularSection({ setInCart, setCartOpen }) {
       price: 650,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/roll4.png",
@@ -43,6 +49,8 @@ export default function PopularSection({ setInCart, setCartOpen }) {
       price: 190,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/sandwich4.png",
@@ -57,6 +65,8 @@ export default function PopularSection({ setInCart, setCartOpen }) {
       price: 450,
       description:
         "A crispy fried chicken fillet topped with lettuce, tomato, and a special sauce, all sandwiched between a soft bun.",
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (

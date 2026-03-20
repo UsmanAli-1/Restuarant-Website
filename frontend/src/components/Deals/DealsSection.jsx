@@ -8,6 +8,8 @@ export default function DealsSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/deal2.jpg",
@@ -15,6 +17,8 @@ export default function DealsSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/deal3.jpg",
@@ -22,12 +26,16 @@ export default function DealsSection({ setInCart, setCartOpen }) {
       description:
         "Signature Black Bun, American Cheese Slice and Secret Meg Sauce  ",
       price: 829,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/deal4.jpg",
       title: "Smokehouse",
       description: "American Cheese Slice, Secret Meg Sauce and BBQ Sauce",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/deal5.jpg",
@@ -35,6 +43,8 @@ export default function DealsSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 799,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -50,6 +60,8 @@ export default function DealsSection({ setInCart, setCartOpen }) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

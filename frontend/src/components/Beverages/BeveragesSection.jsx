@@ -7,30 +7,40 @@ export default function BeveragesSection({ setInCart, setCartOpen }) {
       title: "Fanta 500",
       description: " ",
       price: 110,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/sprite.jpg",
       title: "Sprite 500ml",
       description: " ",
       price: 110,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/cock.jpg",
       title: "Cock 500ml",
       description: " ",
       price: 110,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/water.jpg",
       title: "Water",
       description: " ",
       price: 70,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/paratha.jpg",
       title: "Paratha",
       description: " ",
       price: 70,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/cheese.jpg",
@@ -38,6 +48,8 @@ export default function BeveragesSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Shroom Sauce zinger sauce and mushroom",
       price: 70,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -53,6 +65,8 @@ export default function BeveragesSection({ setInCart, setCartOpen }) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

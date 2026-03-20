@@ -8,6 +8,8 @@ export default function FriesSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Garlic Mayo Sauce, Grilled Vegetable",
       price: 650,
+      showmeal: false,
+      showaddon: false,
     },
     {
       image: "/images/fries.png",
@@ -15,6 +17,8 @@ export default function FriesSection({ setInCart, setCartOpen }) {
       description:
         "American Cheese Slice, Salsa Sauce, Cheese Sauce  zinger sauce and jalapeno",
       price: 150,
+      showmeal: false,
+      showaddon: false,
     },
   ];
   return (
@@ -30,6 +34,8 @@ export default function FriesSection({ setInCart, setCartOpen }) {
             {...item}
             setInCart={setInCart}
             setCartOpen={setCartOpen}
+            showMeal={item.showmeal}
+            showaddOn={item.showaddon}
           />
         ))}
       </div>

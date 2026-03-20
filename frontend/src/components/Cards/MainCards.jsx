@@ -9,6 +9,8 @@ export default function MainCards({
   price,
   setInCart,
   setCartOpen,
+  showMeal = true, 
+  showaddOn = true,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -60,6 +62,8 @@ export default function MainCards({
         item={{ image, title, price, description }}
         setInCart={setInCart}
         setCartOpen={setCartOpen}
+        showMeal={showMeal}
+        showaddOn={showaddOn}
       />
     </>
   );
