@@ -57,8 +57,13 @@ export default function Header() {
     }
   }, [activeSection]);
 
+  const currentTime = new Date().getHours();
+  const isClosed = currentTime < 19 && currentTime >= 1;
+  
   return (
-    <div className="bg-white w-full h-11 fixed top-27 z-50 flex justify-center border-b">
+    <div
+      className={`bg-white w-full h-11 fixed ${isClosed ? "top-27" : "top-20"} z-50 flex justify-center border-b`}
+    >
       {/* CENTER CONTAINER */}
       <div className="relative w-full max-w-6xl flex items-center">
         {/* SCROLL AREA */}

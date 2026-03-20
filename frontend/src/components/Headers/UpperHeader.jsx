@@ -11,11 +11,13 @@ export default function UpperHeader({ setCartOpen, inCart, showCart = true }) {
   return (
     <>
       {isClosed && (
-        <div className="fixed top-0 left-0 w-full h-8  bg-[#DC3545] font-semibold text-xs md:text-sm flex items-center justify-center z-50 ">
+        <div className="fixed top-0 left-0 w-full h-8 bg-[#DC3545] font-semibold text-xs md:text-sm flex items-center justify-center z-50 ">
           <p>Sorry, we are closed right now and will re-open at 7:00 PM.</p>
         </div>
       )}
-      <div className="h-19 bg-black fixed top-8 left-0 w-full z-50 flex justify-center border-b-[0.5px] border-gray-700/50">
+      <div
+        className={`h-19 bg-black fixed ${isClosed ? "top-8" : "top-0"} left-0 w-full z-50 flex justify-center border-b-[0.5px] border-gray-700/50`}
+      >
         {/* CENTER CONTAINER */}
         <div className="w-full max-w-6xl px-4 flex items-center">
           <Box sx={{ flexGrow: 1 }}>
