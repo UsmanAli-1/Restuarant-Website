@@ -43,8 +43,7 @@ export default function UpperHeader({ setCartOpen, inCart, showCart = true }) {
 
                     <div className="text-xs md:text-sm truncate max-w-[180px] md:max-w-[350px]">
                       <a href="#">
-                        H no R-50 street 2 sindhi society gulshan-e-iqbal block
-                        19
+                        gulshan-e-iqbal block 19
                       </a>
                     </div>
                   </div>

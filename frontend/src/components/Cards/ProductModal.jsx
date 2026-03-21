@@ -86,6 +86,7 @@ export default function ProductModal({
     setAddonOption("");
     setDrinkOption("");
     setNote("");
+    setQuantity(1)
 
     onClose();
   };
@@ -95,6 +96,7 @@ export default function ProductModal({
     setAddonOption("");
     setDrinkOption("");
     setNote("");
+    setQuantity(1)
     onClose();
   }
 
@@ -211,16 +213,17 @@ export default function ProductModal({
                     borderRadius: "10px",
                     overflow: "hidden",
                     "&:before": { display: "none" },
+                    boxShadow: "none",
                   }}
                 >
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    sx={{ bgcolor: "#faf8f7" }}
+                    sx={{ bgcolor: "#f1f1f1da" }}
                   >
                     <Typography fontWeight="bold">Make It A Meal</Typography>
                   </AccordionSummary>
 
-                  <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
+                  <AccordionDetails sx={{ bgcolor: "#f1f1f1da" }}>
                     <Box className="space-y-3">
                       <Box
                         onClick={() =>
@@ -267,16 +270,17 @@ export default function ProductModal({
                     borderRadius: "10px",
                     overflow: "hidden",
                     "&:before": { display: "none" },
+                    boxShadow: "none",
                   }}
                 >
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    sx={{ bgcolor: "#faf8f7" }}
+                    sx={{ bgcolor: "#f1f1f1da" }}
                   >
                     <Typography fontWeight="bold">Choose Drink</Typography>
                   </AccordionSummary>
 
-                  <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
+                  <AccordionDetails sx={{ bgcolor: "#f1f1f1da" }}>
                     <Box className="space-y-3">
                       <Box
                         onClick={() => setDrinkOption("cola")}
@@ -314,16 +318,17 @@ export default function ProductModal({
                     borderRadius: "10px",
                     overflow: "hidden",
                     "&:before": { display: "none" },
+                    boxShadow: "none",
                   }}
                 >
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    sx={{ bgcolor: "#faf8f7" }}
+                    sx={{ bgcolor: "#f1f1f1da" }}
                   >
                     <Typography fontWeight="bold">Add On</Typography>
                   </AccordionSummary>
 
-                  <AccordionDetails sx={{ bgcolor: "#faf8f7" }}>
+                  <AccordionDetails sx={{ bgcolor: "#f1f1f1da" }}>
                     <Box
                       onClick={() =>
                         setAddonOption(addonOption === "cheese" ? "" : "cheese")
@@ -347,12 +352,12 @@ export default function ProductModal({
               --------------------------------------------------------------------------------------- */}
 
               <div>
-                <p className="font-semibold mb-2">Instructions</p>
+                <p className="font-semibold mb-2 mt-2 ">Instructions</p>
 
                 <textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  className="w-full border rounded-lg p-3 bg-[#faf8f7]"
+                  className="w-full border border-[#d1d1d1] rounded-lg p-3 bg-[#f1f1f1da]"
                 />
               </div>
             </div>
@@ -367,7 +372,7 @@ export default function ProductModal({
                 <div className="flex items-center justify-center md:justify-start gap-10 md:gap-2 lg:gap-2">
                   <button
                     onClick={decrease}
-                    className="w-8 h-12 bg-black text-white rounded-md flex items-center justify-center"
+                    className="w-10 h-12 bg-black text-white rounded-md flex items-center justify-center"
                   >
                     <RemoveIcon />
                   </button>
@@ -378,7 +383,7 @@ export default function ProductModal({
 
                   <button
                     onClick={increase}
-                    className="w-8 h-12 bg-black text-white rounded-md flex items-center justify-center"
+                    className="w-10 h-12 bg-black text-white rounded-md flex items-center justify-center"
                   >
                     <AddIcon />
                   </button>
@@ -389,7 +394,15 @@ export default function ProductModal({
                   onClick={() => handleAddtocart(item, onClose)}
                   className="bg-black text-white py-3 px-3 md:px-6 rounded-lg font-semibold flex justify-between md:justify-center md:gap-10 lg:gap-18 w-full md:w-auto "
                 >
-                  <span>Rs. {getItemTotal(item).toLocaleString()}</span>
+                  <span>
+                    Rs.{" "}
+                    {(
+                      (item?.price +
+                        (mealOption ? mealOptions[mealOption].price : 0) +
+                        (addonOption ? addonOptions[addonOption].price : 0)) *
+                      quantity
+                    ).toLocaleString()}
+                  </span>
 
                   <span>Add To Cart</span>
                 </button>

@@ -62,7 +62,7 @@ export default function Header() {
   
   return (
     <div
-      className={`bg-white w-full h-11 fixed ${isClosed ? "top-27" : "top-20"} z-50 flex justify-center border-b`}
+      className={`bg-white w-full h-11 fixed ${isClosed ? "top-27" : "top-19"} z-50 flex justify-center border-b`}
     >
       {/* CENTER CONTAINER */}
       <div className="relative w-full max-w-6xl flex items-center">
