@@ -11,6 +11,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Footer from "../components/Footer";
 import UpperHeader from "../components/Headers/UpperHeader";
 import { getItemTotal } from "../utils/cart";
+import { useUserLocation } from "../context/LocationContext";
 
 /* ─── shared input sx ─── */
 const inputSx = {
@@ -32,6 +33,8 @@ const inputSx = {
 
 export default function Checkout({ inCart = [], subtotal = 0, setInCart , setCartOpen={setCartOpen} }) {
   const navigate = useNavigate();
+
+  const { setOpenModal } = useUserLocation();
 
   const [selectedPayment, setSelectedPayment] = useState("cod");
 
@@ -278,6 +281,7 @@ export default function Checkout({ inCart = [], subtotal = 0, setInCart , setCar
                     }}
                   />
                   <Button
+                    onClick={() => setOpenModal(true)}
                     variant="contained"
                     disableElevation
                     sx={{

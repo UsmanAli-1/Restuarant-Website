@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Home from "./Pages/Home";
 import Checkout from "./Pages/Checkout";
 import { getItemTotal } from "./utils/cart";
+import LocationModal from "./components/LocationModal";
 
 function App() {
   // ── initialise from localStorage so cart survives refresh ──
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    {/* <LocationModal /> */}
       <Routes>
         <Route
           path="/"

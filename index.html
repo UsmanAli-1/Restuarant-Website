@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mujahid Foods — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── CSS VARIABLES ── */
+  body {
+    --bg:          #f4f6f9;
+    --surface:     #ffffff;
+    --sidebar-bg:  black;
+    --sidebar-text:#a9b4cc;
+    --sidebar-act: #ffffff;
+    --sidebar-act-bg: rgba(255,255,255,0.1);
+    --sidebar-act-border: #f5a623;
+    --border:      #e2e8f0;
+    --text:        #1a202c;
+    --text-muted:  #718096;
+    --accent:      #C9B762;
+    --accent-light:#fff4e6;
+    --shadow:      0 1px 4px rgba(0,0,0,0.08);
+    --shadow-md:   0 2px 8px rgba(0,0,0,0.10);
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background .25s, color .25s;
+  }
+
+  body.dark {
+    --bg:          #111827;
+    --surface:     #1f2937;
+    --sidebar-bg:  #111827;
+    --sidebar-text:#9ca3af;
+    --sidebar-act: #ffffff;
+    --sidebar-act-bg: rgba(245,166,35,0.12);
+    --sidebar-act-border: #f5a623;
+    --border:      #374151;
+    --text:        #f9fafb;
+    --text-muted:  #9ca3af;
+    --accent:      #f5a623;
+    --accent-light:#2d2010;
+    --shadow:      0 1px 4px rgba(0,0,0,0.3);
+    --shadow-md:   0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 230px;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 200;
+    transition: background .25s;
+  }
+
+  .sidebar-logo {
+    padding: 22px 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sidebar-logo img {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #fff;
+  }
+  /* Fallback when no real logo image */
+  .logo-placeholder {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .logo-info { }
+  .logo-info .brand { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .logo-info .tagline { font-size: 11px; color: var(--sidebar-text); margin-top: 1px; }
+
+  .sidebar-nav { padding: 16px 10px; flex: 1; }
+  .nav-group-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(169,180,204,0.5);
+    padding: 12px 12px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--sidebar-text);
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background .15s, color .15s, border-color .15s;
+    margin-bottom: 2px;
+    user-select: none;
+  }
+  .nav-item:hover {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+  }
+  .nav-item.active {
+    background: var(--sidebar-act-bg);
+    color: var(--sidebar-act);
+    border-left-color: var(--sidebar-act-border);
+    font-weight: 600;
+  }
+  .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+  .nav-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 12px;
+    min-width: 22px;
+    text-align: center;
+  }
+
+  .sidebar-bottom {
+    padding: 14px 10px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+  }
+  .user-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .user-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .user-role { font-size: 11px; color: var(--sidebar-text); }
+
+  /* ── MAIN ── */
+  .main { margin-left: 230px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    height: 60px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+    transition: background .25s, border-color .25s;
+  }
+
+  .topbar-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+  }
+  .topbar-title span { color: var(--accent); }
+
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    gap: 8px;
+    width: 220px;
+    transition: border-color .15s;
+  }
+  .search-wrap:focus-within { border-color: var(--accent); }
+  .search-wrap input {
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    width: 100%;
+  }
+  .search-wrap input::placeholder { color: var(--text-muted); }
+  .search-icon { color: var(--text-muted); font-size: 13px; }
+
+  .theme-toggle {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    color: var(--text);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
+  .profile-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTENT ── */
+  .content { padding: 24px; flex: 1; }
+
+  /* Section switching */
+  .section { display: none; }
+  .section.active-section { display: block; }
+
+  /* ── PAGE HEADER ── */
+  .page-header { margin-bottom: 22px; }
+  .page-header h2 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .page-header p { font-size: 13px; color: var(--text-muted); }
+
+  /* ── STAT CARDS ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: background .25s, border-color .25s;
+  }
+  .stat-icon {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .stat-icon.orange { background: #fff4e6; }
+  .stat-icon.blue   { background: #ebf8ff; }
+  .stat-icon.green  { background: #f0fff4; }
+  .stat-icon.red    { background: #fff5f5; }
+  body.dark .stat-icon.orange { background: rgba(230,126,34,.15); }
+  body.dark .stat-icon.blue   { background: rgba(59,130,246,.15); }
+  body.dark .stat-icon.green  { background: rgba(34,197,94,.15); }
+  body.dark .stat-icon.red    { background: rgba(239,68,68,.15); }
+
+  .stat-info { }
+  .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 5px; }
+  .stat-value { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); }
+  .stat-sub .up { color: #38a169; font-weight: 600; }
+  .stat-sub .down { color: #e53e3e; font-weight: 600; }
+
+  /* ── CARD BOX ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    transition: background .25s, border-color .25s;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .card-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background .15s, border-color .15s, color .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #d35400; border-color: #d35400; }
+  .btn-outline { background: transparent; color: var(--text); border-color: var(--border); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-sm { padding: 5px 11px; font-size: 12px; border-radius: 5px; }
+  .btn-danger { background: transparent; color: #e53e3e; border-color: #fed7d7; }
+  .btn-danger:hover { background: #fff5f5; }
+  body.dark .btn-danger:hover { background: rgba(239,68,68,.1); }
+
+  /* ── TABLE ── */
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead { background: var(--bg); }
+  th {
+    padding: 11px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+
+  /* STATUS BADGES */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .badge-pending   { background: #fff4e6; color: #c05621; }
+  .badge-preparing { background: #ebf8ff; color: #2b6cb0; }
+  .badge-delivered { background: #f0fff4; color: #276749; }
+  .badge-cancelled { background: #fff5f5; color: #c53030; }
+  body.dark .badge-pending   { background: rgba(230,126,34,.15); }
+  body.dark .badge-preparing { background: rgba(59,130,246,.15); }
+  body.dark .badge-delivered { background: rgba(34,197,94,.15); }
+  body.dark .badge-cancelled { background: rgba(239,68,68,.15); }
+
+  .order-id { font-weight: 600; color: var(--accent); }
+  .cust-cell { display: flex; align-items: center; gap: 9px; }
+  .cust-av {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .actions-cell { display: flex; gap: 6px; }
+  .item-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .filter-tab {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+  }
+  .filter-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-tab.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .filter-search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+  }
+  .filter-search input {
+    background: none; border: none; outline: none;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px; color: var(--text); width: 170px;
+  }
+  .filter-search input::placeholder { color: var(--text-muted); }
+
+  /* ── MENU GRID ── */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+  }
+  .food-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg);
+    transition: box-shadow .15s, border-color .15s;
+  }
+  .food-card:hover { box-shadow: var(--shadow-md); border-color: #cbd5e0; }
+  body.dark .food-card:hover { border-color: #4b5563; }
+  .food-img {
+    width: 100%; height: 130px;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+  }
+  .food-body { padding: 14px; }
+  .food-cat { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 600; margin-bottom: 5px; }
+  .food-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .food-price { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .food-actions { display: flex; gap: 8px; }
+
+  /* ── CUSTOMERS ── */
+  .cust-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #ebf8ff;
+    color: #2b6cb0;
+  }
+  .cust-tag.vip  { background: #fff4e6; color: #c05621; }
+  .cust-tag.new  { background: #f0fff4; color: #276749; }
+  body.dark .cust-tag        { background: rgba(59,130,246,.15); }
+  body.dark .cust-tag.vip    { background: rgba(230,126,34,.15); }
+  body.dark .cust-tag.new    { background: rgba(34,197,94,.15); }
+
+  /* ── BAR CHART (pure CSS) ── */
+  .chart-area { padding: 16px 20px 20px; }
+  .bars { display: flex; align-items: flex-end; gap: 10px; height: 130px; }
+  .bar-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+  .bar-fill {
+    width: 100%;
+    background: var(--accent);
+    opacity: 0.75;
+    border-radius: 4px 4px 0 0;
+    transition: opacity .2s;
+  }
+  .bar-fill:hover { opacity: 1; }
+  .bar-lbl { font-size: 11px; color: var(--text-muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .sidebar { width: 52px; }
+    .logo-info, .nav-item span:not(.nav-icon), .sidebar-bottom .user-name,
+    .sidebar-bottom .user-role, .nav-badge, .nav-group-label { display: none; }
+    .nav-item { justify-content: center; padding: 10px; border-left: none; border-radius: 6px; }
+    .nav-item.active { background: var(--sidebar-act-bg); }
+    .main { margin-left: 52px; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .content { padding: 14px; }
+    .topbar { padding: 0 14px; }
+    .search-wrap { display: none; }
+    .menu-grid { grid-template-columns: repeat(2,1fr); padding: 14px; }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <!-- Replace logo.png with your actual logo file -->
+    <div class="logo-placeholder"><img src="./logo.jpg" /></div>
+    <div class="logo-info">
+      <div class="brand">Mujahid Foods</div>
+      <div class="tagline">Admin Panel</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Main Menu</div>
+
+    <div class="nav-item active" data-section="dashboard">
+      <span class="nav-icon">📊</span>
+      <span>Dashboard</span>
+    </div>
+    <div class="nav-item" data-section="orders">
+      <span class="nav-icon">📦</span>
+      <span>Orders</span>
+      <span class="nav-badge">25</span>
+    </div>
+    <div class="nav-item" data-section="menu">
+      <span class="nav-icon">🍔</span>
+      <span>Menu Items</span>
+    </div>
+    <div class="nav-item" data-section="customers">
+      <span class="nav-icon">👤</span>
+      <span>Customers</span>
+    </div>
+
+    <div class="nav-group-label" style="margin-top:10px;">Other</div>
+    <div class="nav-item" data-section="dashboard">
+      <span class="nav-icon">⚙️</span>
+      <span>Settings</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="sidebar-user">
+      <div class="user-avatar">A</div>
+      <div>
+        <div class="user-name">Admin</div>
+        <div class="user-role">Super Admin</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-title">Mujahid Foods</div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search…">
+    </div>
+
+    <button class="theme-toggle" id="themeBtn" title="Toggle theme">🌙</button>
+
+    <div class="profile-btn">A</div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div id="dashboard" class="section active-section">
+      <div class="page-header">
+        <h2>Dashboard</h2>
+        <p>Welcome back, Admin. Here's a summary of today's activity.</p>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon orange">📦</div>
+          <div class="stat-info">
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-value">120</div>
+            <div class="stat-sub"><span class="up">+12%</span> vs last week</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">⏳</div>
+          <div class="stat-info">
+            <div class="stat-label">Pending Orders</div>
+            <div class="stat-value">25</div>
+            <div class="stat-sub">Needs attention</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-info">
+            <div class="stat-label">Completed</div>
+            <div class="stat-value">95</div>
+            <div class="stat-sub"><span class="up">79%</span> completion rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">💰</div>
+          <div class="stat-info">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value" style="font-size:20px;">Rs. 85,000</div>
+            <div class="stat-sub"><span class="up">+8%</span> this month</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART + QUICK STATS -->
+      <div style="display:grid;grid-template-columns:1fr 260px;gap:16px;margin-bottom:22px;">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Weekly Revenue</div>
+              <div class="card-subtitle">Apr 13 – Apr 19, 2026</div>
+            </div>
+          </div>
+          <div class="chart-area">
+            <div class="bars">
+              <div class="bar-col"><div class="bar-fill" style="height:55%"></div><div class="bar-lbl">Mon</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:70%"></div><div class="bar-lbl">Tue</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:45%"></div><div class="bar-lbl">Wed</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:90%"></div><div class="bar-lbl">Thu</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:80%"></div><div class="bar-lbl">Fri</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:100%"></div><div class="bar-lbl">Sat</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:65%"></div><div class="bar-lbl">Sun</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="card" style="margin-bottom:0;padding:16px 18px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">Top Item Today</div>
+            <div style="font-size:15px;font-weight:700;">🍔 Zinger Burger</div>
+          </div>
+          <div class="card" style="margin-bottom:0;padding:16px 18px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">New Customers</div>
+            <div style="font-size:22px;font-weight:700;">18</div>
+          </div>
+          <div class="card" style="margin-bottom:0;padding:16px 18px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">Avg Delivery</div>
+            <div style="font-size:22px;font-weight:700;">28 min</div>
+          </div>
+          <div class="card" style="margin-bottom:0;padding:16px 18px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">Avg Rating</div>
+            <div style="font-size:22px;font-weight:700;">⭐ 4.7</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT ORDERS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Recent Orders</div>
+            <div class="card-subtitle">Last 5 orders today</div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="showSection('orders')">View All →</button>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="order-id">#1023</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Ali Khan</div></td>
+                <td>Zinger Burger, Pizza Fries</td>
+                <td><strong>Rs. 1,000</strong></td>
+                <td><span class="badge badge-pending">Pending</span></td>
+              </tr>
+              <tr>
+                <td class="order-id">#1022</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Sara Ahmed</div></td>
+                <td>Boss Zinger, Beverage</td>
+                <td><strong>Rs. 850</strong></td>
+                <td><span class="badge badge-preparing">Preparing</span></td>
+              </tr>
+              <tr>
+                <td class="order-id">#1021</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Hamza Raza</div></td>
+                <td>Tikka Flavor Pizza</td>
+                <td><strong>Rs. 799</strong></td>
+                <td><span class="badge badge-delivered">Delivered</span></td>
+              </tr>
+              <tr>
+                <td class="order-id">#1020</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Fatima Noor</div></td>
+                <td>Club Sandwich, Fries</td>
+                <td><strong>Rs. 700</strong></td>
+                <td><span class="badge badge-delivered">Delivered</span></td>
+              </tr>
+              <tr>
+                <td class="order-id">#1019</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Usman Tariq</div></td>
+                <td>BBQ Deal, Rolls × 2</td>
+                <td><strong>Rs. 1,250</strong></td>
+                <td><span class="badge badge-cancelled">Cancelled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ORDERS ═══ -->
+    <div id="orders" class="section">
+      <div class="page-header">
+        <h2>Orders</h2>
+        <p>View and manage all customer orders.</p>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-tab active">All (120)</div>
+        <div class="filter-tab">Pending (25)</div>
+        <div class="filter-tab">Preparing (12)</div>
+        <div class="filter-tab">Delivered (80)</div>
+        <div class="filter-tab">Cancelled (3)</div>
+        <div class="filter-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search orders…">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="order-id">#1023</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Ali Khan</div></td>
+                <td>
+                  Zinger Burger, Pizza Fries
+                  <div class="item-desc">2 items</div>
+                </td>
+                <td><strong>Rs. 1,000</strong></td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                    <button class="btn btn-primary btn-sm">✓ Done</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="order-id">#1022</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Sara Ahmed</div></td>
+                <td>
+                  Boss Zinger, Beverage
+                  <div class="item-desc">2 items</div>
+                </td>
+                <td><strong>Rs. 850</strong></td>
+                <td><span class="badge badge-preparing">Preparing</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                    <button class="btn btn-primary btn-sm">✓ Done</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="order-id">#1021</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Hamza Raza</div></td>
+                <td>
+                  Tikka Flavor Pizza
+                  <div class="item-desc">1 item</div>
+                </td>
+                <td><strong>Rs. 799</strong></td>
+                <td><span class="badge badge-delivered">Delivered</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="order-id">#1020</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Fatima Noor</div></td>
+                <td>
+                  Club Sandwich, Fries
+                  <div class="item-desc">2 items</div>
+                </td>
+                <td><strong>Rs. 700</strong></td>
+                <td><span class="badge badge-delivered">Delivered</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="order-id">#1019</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Usman Tariq</div></td>
+                <td>
+                  BBQ Deal, Rolls × 2
+                  <div class="item-desc">3 items</div>
+                </td>
+                <td><strong>Rs. 1,250</strong></td>
+                <td><span class="badge badge-cancelled">Cancelled</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="order-id">#1018</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Zara Malik</div></td>
+                <td>
+                  Crispy Sandwich, Pasta
+                  <div class="item-desc">2 items</div>
+                </td>
+                <td><strong>Rs. 950</strong></td>
+                <td><span class="badge badge-pending">Pending</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                    <button class="btn btn-primary btn-sm">✓ Done</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="order-id">#1017</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Bilal Sheikh</div></td>
+                <td>
+                  Afghani Pizza, Rolls × 3
+                  <div class="item-desc">4 items</div>
+                </td>
+                <td><strong>Rs. 1,350</strong></td>
+                <td><span class="badge badge-preparing">Preparing</span></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-outline btn-sm">View</button>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                    <button class="btn btn-primary btn-sm">✓ Done</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MENU ITEMS ═══ -->
+    <div id="menu" class="section">
+      <div class="page-header">
+        <h2>Menu Items</h2>
+        <p>Manage your restaurant's food catalog.</p>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-tab active">All</div>
+        <div class="filter-tab">Burgers</div>
+        <div class="filter-tab">Pizza</div>
+        <div class="filter-tab">Sandwiches</div>
+        <div class="filter-tab">BBQ</div>
+        <div class="filter-tab">Fries</div>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto;">+ Add Item</button>
+      </div>
+
+      <div class="card" style="overflow:visible;">
+        <div class="menu-grid">
+          <div class="food-card">
+            <div class="food-img">🍔</div>
+            <div class="food-body">
+              <div class="food-cat">Burgers</div>
+              <div class="food-name">Zinger Burger</div>
+              <div class="food-price">Rs. 350</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🍔</div>
+            <div class="food-body">
+              <div class="food-cat">Burgers</div>
+              <div class="food-name">Boss Zinger</div>
+              <div class="food-price">Rs. 650</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🍕</div>
+            <div class="food-body">
+              <div class="food-cat">Pizza</div>
+              <div class="food-name">Tikka Flavor Pizza</div>
+              <div class="food-price">Rs. 799</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🍟</div>
+            <div class="food-body">
+              <div class="food-cat">Fries</div>
+              <div class="food-name">Pizza Fries</div>
+              <div class="food-price">Rs. 650</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🥪</div>
+            <div class="food-body">
+              <div class="food-cat">Sandwich</div>
+              <div class="food-name">Crispy Chicken Sandwich</div>
+              <div class="food-price">Rs. 450</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🥪</div>
+            <div class="food-body">
+              <div class="food-cat">Sandwich</div>
+              <div class="food-name">Club Sandwich</div>
+              <div class="food-price">Rs. 400</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🍕</div>
+            <div class="food-body">
+              <div class="food-cat">Pizza</div>
+              <div class="food-name">Chicken Supreme</div>
+              <div class="food-price">Rs. 829</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="food-card">
+            <div class="food-img">🍖</div>
+            <div class="food-body">
+              <div class="food-cat">BBQ</div>
+              <div class="food-name">Malai Tikka</div>
+              <div class="food-price">Rs. 799</div>
+              <div class="food-actions">
+                <button class="btn btn-outline btn-sm" style="flex:1">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm">🗑</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CUSTOMERS ═══ -->
+    <div id="customers" class="section">
+      <div class="page-header">
+        <h2>Customers</h2>
+        <p>Overview of all registered customers.</p>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-search" style="margin-left:0;">
+          <span>🔍</span>
+          <input type="text" placeholder="Search customers…">
+        </div>
+        <button class="btn btn-outline btn-sm" style="margin-left:auto;">Export CSV</button>
+      </div>
+
+      <div class="card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Total Orders</th>
+                <th>Total Spent</th>
+                <th>Last Order</th>
+                <th>Tag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--text-muted)">1</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Ali Khan</div></td>
+                <td>0300-1234567</td>
+                <td><strong>18</strong></td>
+                <td><strong>Rs. 14,200</strong></td>
+                <td>Apr 19, 2026</td>
+                <td><span class="cust-tag vip">VIP</span></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted)">2</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Sara Ahmed</div></td>
+                <td>0311-9876543</td>
+                <td><strong>12</strong></td>
+                <td><strong>Rs. 9,600</strong></td>
+                <td>Apr 19, 2026</td>
+                <td><span class="cust-tag">Regular</span></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted)">3</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Hamza Raza</div></td>
+                <td>0333-4455667</td>
+                <td><strong>9</strong></td>
+                <td><strong>Rs. 7,200</strong></td>
+                <td>Apr 18, 2026</td>
+                <td><span class="cust-tag">Regular</span></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted)">4</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Fatima Noor</div></td>
+                <td>0321-7788990</td>
+                <td><strong>22</strong></td>
+                <td><strong>Rs. 18,500</strong></td>
+                <td>Apr 19, 2026</td>
+                <td><span class="cust-tag vip">VIP</span></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted)">5</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Usman Tariq</div></td>
+                <td>0345-1122334</td>
+                <td><strong>5</strong></td>
+                <td><strong>Rs. 4,100</strong></td>
+                <td>Apr 17, 2026</td>
+                <td><span class="cust-tag new">New</span></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted)">6</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Zara Malik</div></td>
+                <td>0301-5566778</td>
+                <td><strong>14</strong></td>
+                <td><strong>Rs. 11,900</strong></td>
+                <td>Apr 19, 2026</td>
+                <td><span class="cust-tag">Regular</span></td>
+              </tr>
+              <tr>
+                <td style="color:var(--text-muted)">7</td>
+                <td><div class="cust-cell"><div class="cust-av">👤</div>Bilal Sheikh</div></td>
+                <td>0312-9988776</td>
+                <td><strong>30</strong></td>
+                <td><strong>Rs. 25,400</strong></td>
+                <td>Apr 19, 2026</td>
+                <td><span class="cust-tag vip">VIP</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+  // ── SECTION SWITCHING ──
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+    document.getElementById(id).classList.add('active-section');
+  }
+
+  // ── SIDEBAR ACTIVE STATE ──
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function () {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      this.classList.add('active');
+      const section = this.dataset.section;
+      if (section) showSection(section);
+    });
+  });
+
+  // ── FILTER TABS (Orders & Menu) ──
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', function () {
+      const siblings = this.parentElement.querySelectorAll('.filter-tab');
+      siblings.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ── THEME TOGGLE ──
+  const btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', function () {
+    document.body.classList.toggle('dark');
+    btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  });
+</script>
+
+</body>
+</html>

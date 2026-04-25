@@ -4,10 +4,14 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import { useUserLocation } from "../../context/LocationContext";
 
 export default function UpperHeader({ setCartOpen, inCart, showCart = true }) {
   const currentTime = new Date().getHours();
   const isClosed = currentTime < 19 && currentTime >= 1;
+
+const { location, setOpenModal } = useUserLocation();
+
   return (
     <>
       {isClosed && (
@@ -36,7 +40,7 @@ export default function UpperHeader({ setCartOpen, inCart, showCart = true }) {
                 <div className="flex items-center ">
                   <LocationPinIcon sx={{ fontSize: { xs: 24, md: 30 } }} />
 
-                  <div className="ml-2">
+                  {/* <div className="ml-2">
                     <div className="font-bold text-sm md:text-base flex items-center">
                       Deliver to <ArrowDropDownIcon />
                     </div>
@@ -46,6 +50,17 @@ export default function UpperHeader({ setCartOpen, inCart, showCart = true }) {
                         gulshan-e-iqbal block 19
                       </a>
                     </div>
+                  </div> */}
+                  <div
+                    onClick={() => setOpenModal(true)}
+                    className="cursor-pointer"
+                  >
+                    <p className="text-xs text-gray-400">Deliver to</p>
+                    <p className="text-sm font-semibold">
+                      {location.area
+                        ? `${location.area}, ${location.city}`
+                        : "Select Location"}
+                    </p>
                   </div>
                 </div>
               </Grid>
